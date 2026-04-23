@@ -1,606 +1,473 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Hidden Leaf Equity Research</title>
+<title>TRLEF · Hidden Leaf Equity Research</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #0a0c0f;
-    --bg2: #0f1318;
-    --bg3: #141820;
-    --bg4: #1a2028;
-    --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.12);
-    --text: #e8eaed;
-    --text2: #8a9ab0;
-    --text3: #556070;
-    --green: #00c076;
-    --green-dim: #004d30;
-    --red: #ff4d4d;
-    --red-dim: #4d0000;
-    --amber: #f0a500;
-    --amber-dim: #3d2900;
-    --blue: #4d9eff;
+    --ink: #1a1a18;
+    --ink2: #4a4a46;
+    --ink3: #8a8a84;
+    --paper: #f8f6f2;
+    --paper2: #f0ede8;
+    --rule: #dedad4;
+    --rule2: #ccc9c2;
+    --green: #1a6e3c;
+    --green-bg: #eaf4ee;
+    --red: #b83c1e;
+    --red-bg: #fdf0ec;
+    --amber: #8a5e00;
+    --amber-bg: #fdf6e8;
+    --accent: #1a4a7a;
     --mono: 'IBM Plex Mono', monospace;
+    --serif: 'IBM Plex Serif', serif;
     --sans: 'IBM Plex Sans', sans-serif;
   }
 
-  html, body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--mono);
-    font-size: 13px;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  /* ── TOP BAR ── */
-  #topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    height: 40px;
-    background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-  #topbar .brand {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    color: var(--text);
-    text-transform: uppercase;
-  }
-  #topbar .brand span { color: var(--green); }
-  #topbar .ticker-tape {
-    display: flex;
-    gap: 24px;
-    font-size: 11px;
-    letter-spacing: 0.05em;
-  }
-  #topbar .ticker-tape .t { color: var(--text2); }
-  #topbar .ticker-tape .v { color: var(--text); }
-  #topbar .ticker-tape .up { color: var(--green); }
-  #topbar .ticker-tape .dn { color: var(--red); }
-  #topbar .clock { font-size: 11px; color: var(--text3); letter-spacing: 0.08em; }
-
-  /* ── LAYOUT ── */
-  #layout {
-    display: flex;
-    height: calc(100vh - 40px);
-  }
-
-  /* ── SIDEBAR ── */
-  #sidebar {
-    width: 260px;
-    flex-shrink: 0;
-    background: var(--bg2);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-  }
-  #sidebar-head {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  #sidebar-head .label {
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    color: var(--text3);
-    text-transform: uppercase;
-  }
-  #new-btn {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    background: none;
-    border: 1px solid var(--border2);
-    color: var(--text2);
-    padding: 3px 10px;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  #new-btn:hover { border-color: var(--green); color: var(--green); }
-
-  #search-wrap {
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--border);
-  }
-  #search {
-    width: 100%;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-family: var(--mono);
-    font-size: 11px;
-    padding: 6px 10px;
-    border-radius: 2px;
-    outline: none;
-    letter-spacing: 0.06em;
-  }
-  #search::placeholder { color: var(--text3); }
-  #search:focus { border-color: var(--border2); }
-
-  #report-list { overflow-y: auto; flex: 1; }
-
-  .ritem {
-    padding: 10px 16px;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-    transition: background 0.1s;
-    border-left: 2px solid transparent;
-  }
-  .ritem:hover { background: var(--bg3); }
-  .ritem.active { background: var(--bg3); border-left-color: var(--green); }
-  .ritem .rticker { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; color: var(--text); }
-  .ritem .rname { font-size: 10px; color: var(--text3); margin-top: 2px; letter-spacing: 0.04em; font-family: var(--sans); }
-  .ritem .rmeta { font-size: 10px; color: var(--text3); margin-top: 2px; letter-spacing: 0.04em; }
-  .ritem .rbadge {
-    display: inline-block;
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 2px 7px;
-    border-radius: 2px;
-    margin-top: 5px;
-  }
-  .rbadge.bull { background: var(--green-dim); color: var(--green); }
-  .rbadge.bear { background: var(--red-dim); color: var(--red); }
-  .rbadge.neutral { background: var(--bg4); color: var(--text2); border: 1px solid var(--border); }
-
-  /* ── MAIN CONTENT ── */
-  #main {
-    flex: 1;
-    overflow-y: auto;
-    padding: 28px 36px;
-    background: var(--bg);
-  }
-
-  #report-header { margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
-  #report-header .ticker-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
-  #report-header .h-ticker { font-size: 28px; font-weight: 600; letter-spacing: 0.06em; color: var(--text); }
-  #report-header .h-company { font-family: var(--sans); font-size: 14px; color: var(--text2); font-weight: 300; }
-  #report-header .h-meta {
-    display: flex; flex-wrap: wrap; gap: 20px;
-    margin-top: 10px; font-size: 11px; color: var(--text3); letter-spacing: 0.07em;
-  }
-  #report-header .h-meta span { }
-  #report-header .h-meta .price { color: var(--text); font-weight: 500; }
-
-  .section { margin-bottom: 24px; }
-  .section-label {
-    font-size: 9px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--text3);
-    padding-bottom: 6px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-  }
-  .section-body {
+  html { font-size: 15px; scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
     font-family: var(--sans);
-    font-size: 14px;
-    line-height: 1.8;
-    color: var(--text2);
-    font-weight: 300;
-  }
-  .verdict {
-    padding: 14px 18px;
-    background: var(--bg2);
-    border-left: 2px solid var(--green);
-    font-family: var(--sans);
-    font-size: 14px;
-    line-height: 1.8;
-    color: var(--text);
     font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
-  .verdict.bear { border-left-color: var(--red); }
 
-  /* empty */
-  #empty {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 70vh;
-    color: var(--text3);
-    letter-spacing: 0.1em;
-    font-size: 11px;
-    gap: 10px;
-    text-align: center;
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--ink);
+    display: flex; align-items: center;
+    padding: 0 2rem; height: 40px;
+    font-family: var(--mono); font-size: 0.65rem;
+    letter-spacing: 0.07em; overflow-x: auto; white-space: nowrap;
+    gap: 0;
   }
-  #empty .empty-icon { font-size: 36px; opacity: 0.2; margin-bottom: 8px; }
+  nav .brand { color: #fff; font-weight: 600; margin-right: 1.5rem; letter-spacing: 0.1em; }
+  nav .brand span { color: #5aaa78; }
+  nav a {
+    color: #888; text-decoration: none;
+    padding: 0 0.85rem; height: 40px;
+    display: inline-flex; align-items: center;
+    border-left: 1px solid #333;
+    transition: color 0.15s;
+  }
+  nav a:hover { color: #fff; }
+  nav a.home { border-left: none; border-right: 1px solid #333; }
 
-  /* add report modal */
-  #modal-overlay {
-    display: none;
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.7);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
+  /* MASTHEAD */
+  .masthead {
+    padding: 3rem 2rem 2.5rem;
+    border-bottom: 1px solid var(--rule2);
+    max-width: 860px; margin: 0 auto;
   }
-  #modal-overlay.open { display: flex; }
-  #modal {
-    background: var(--bg2);
-    border: 1px solid var(--border2);
-    border-radius: 4px;
-    width: 560px;
-    max-height: 90vh;
-    overflow-y: auto;
-    padding: 24px;
+  .masthead-eyebrow {
+    font-family: var(--mono); font-size: 0.62rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink3); margin-bottom: 1rem;
   }
-  #modal h3 {
-    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--text2); margin-bottom: 20px;
+  .masthead-eyebrow span { color: var(--accent); }
+  .masthead h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 300; line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem; max-width: 780px;
   }
-  .field { margin-bottom: 16px; }
-  .field label { display: block; font-size: 10px; letter-spacing: 0.1em; color: var(--text3); margin-bottom: 6px; text-transform: uppercase; }
-  .field input, .field textarea, .field select {
-    width: 100%;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-family: var(--mono);
-    font-size: 12px;
-    padding: 8px 12px;
-    border-radius: 2px;
-    outline: none;
-    letter-spacing: 0.04em;
+  .masthead h1 em { font-style: italic; color: var(--accent); }
+  .masthead-sub {
+    font-family: var(--serif); font-size: 1rem;
+    font-weight: 300; color: var(--ink2);
+    max-width: 640px; line-height: 1.75;
+    margin-bottom: 1.75rem;
   }
-  .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--border2); }
-  .field textarea { min-height: 80px; resize: vertical; line-height: 1.6; font-family: var(--sans); }
-  .field select option { background: var(--bg2); }
-  .modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .modal-btns { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
-  .btn {
-    font-family: var(--mono);
-    font-size: 11px; letter-spacing: 0.08em;
-    padding: 7px 20px; border-radius: 2px;
-    border: 1px solid var(--border2);
-    cursor: pointer; background: none; color: var(--text2);
-    transition: all 0.15s;
+  .stats-row {
+    display: flex; flex-wrap: wrap; gap: 0;
+    border: 1px solid var(--rule2);
   }
-  .btn:hover { color: var(--text); border-color: var(--text3); }
-  .btn.primary { background: var(--green); color: #000; border-color: var(--green); font-weight: 600; }
-  .btn.primary:hover { opacity: 0.9; }
+  .stat {
+    padding: 0.6rem 1.1rem;
+    border-right: 1px solid var(--rule2);
+    min-width: 130px;
+  }
+  .stat:last-child { border-right: none; }
+  .stat-l {
+    font-family: var(--mono); font-size: 0.57rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink3); margin-bottom: 0.2rem;
+  }
+  .stat-v {
+    font-family: var(--mono); font-size: 0.88rem;
+    color: var(--ink); font-weight: 500;
+  }
+  .stat-v.warn { color: var(--red); }
+  .stat-v.good { color: var(--green); }
 
-  /* section adder */
-  #sections-container .sec-row {
-    display: grid; grid-template-columns: 160px 1fr 28px; gap: 8px;
-    align-items: start; margin-bottom: 8px;
-  }
-  #sections-container .sec-row input { font-family: var(--mono); }
-  .remove-sec {
-    background: none; border: 1px solid var(--border);
-    color: var(--text3); cursor: pointer; border-radius: 2px;
-    font-size: 14px; height: 34px; width: 28px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .remove-sec:hover { border-color: var(--red); color: var(--red); }
-  #add-section-btn {
-    font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
-    background: none; border: 1px dashed var(--border2);
-    color: var(--text3); cursor: pointer; width: 100%;
-    padding: 6px; border-radius: 2px; margin-top: 4px;
-  }
-  #add-section-btn:hover { border-color: var(--green); color: var(--green); }
+  /* CONTENT */
+  .content { max-width: 860px; margin: 0 auto; padding: 0 2rem 5rem; }
 
-  /* scrollbar */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+  /* OVERVIEW */
+  .overview {
+    padding: 2.5rem 0 2rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .overview p {
+    font-family: var(--serif); font-size: 1rem;
+    line-height: 1.8; color: var(--ink2);
+    max-width: 72ch; margin-bottom: 0.9rem;
+  }
+  .overview p:last-child { margin-bottom: 0; }
 
-  .fade-in { animation: fadeIn 0.2s ease; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  /* SECTION */
+  .section {
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--rule);
+    margin-top: 2.5rem;
+  }
+  .section-label {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink3); margin-bottom: 0.4rem;
+  }
+  .section-label span { color: var(--accent); }
+  .section h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.3rem, 3vw, 1.75rem);
+    font-weight: 300; line-height: 1.25;
+    margin-bottom: 1rem; letter-spacing: -0.01em;
+  }
+  .section h2 em { font-style: italic; color: var(--accent); }
+  .section p {
+    font-family: var(--serif); font-size: 1rem;
+    line-height: 1.8; color: var(--ink2);
+    max-width: 72ch; margin-bottom: 0.9rem;
+  }
+
+  /* GATE CARD */
+  .gate {
+    background: var(--paper2);
+    border: 1px solid var(--rule2);
+    border-left: 3px solid var(--red);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .gate.amber { border-left-color: var(--amber); }
+  .gate.green { border-left-color: var(--green); }
+  .gate-tag {
+    font-family: var(--mono); font-size: 0.58rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink3); margin-bottom: 0.4rem;
+  }
+  .gate h3 {
+    font-family: var(--serif); font-size: 1.05rem;
+    font-weight: 600; line-height: 1.35;
+    margin-bottom: 0.65rem; color: var(--ink);
+  }
+  .gate p {
+    font-family: var(--sans); font-size: 0.9rem;
+    line-height: 1.65; color: var(--ink2);
+    max-width: none; margin-bottom: 0;
+  }
+  .gate-split {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1rem; margin-top: 1rem;
+    padding-top: 1rem; border-top: 1px solid var(--rule);
+  }
+  .gate-split-label {
+    font-family: var(--mono); font-size: 0.58rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+  .gate-split-label.pass { color: var(--green); }
+  .gate-split-label.fail { color: var(--red); }
+  .gate-split p {
+    font-family: var(--sans); font-size: 0.85rem;
+    line-height: 1.55; color: var(--ink2); margin: 0;
+  }
+
+  /* SCENARIO TABLE */
+  .scenario-table {
+    width: 100%; border-collapse: collapse;
+    margin: 1.5rem 0; font-family: var(--sans);
+    font-size: 0.85rem;
+  }
+  .scenario-table th {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink3); text-align: left;
+    padding: 0.5rem 0.85rem;
+    border-bottom: 1px solid var(--ink);
+    background: var(--paper2);
+  }
+  .scenario-table td {
+    padding: 0.65rem 0.85rem;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top; line-height: 1.5;
+    color: var(--ink2);
+  }
+  .scenario-table tr:last-child td { border-bottom: none; }
+  .scenario-table tr:hover td { background: var(--paper2); }
+  .tag {
+    display: inline-block;
+    font-family: var(--mono); font-size: 0.58rem;
+    letter-spacing: 0.07em; text-transform: uppercase;
+    padding: 0.15rem 0.5rem; margin-right: 0.2rem;
+  }
+  .tag.pass { background: var(--green-bg); color: var(--green); }
+  .tag.fail { background: var(--red-bg); color: var(--red); }
+  .tag.na { background: var(--paper2); color: var(--ink3); border: 1px solid var(--rule2); }
+
+  /* VERDICT */
+  .verdict {
+    background: var(--ink); color: #e8e4dc;
+    padding: 2rem 2.25rem; margin-top: 2.5rem;
+  }
+  .verdict-label {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: #5aaa78; margin-bottom: 0.5rem;
+  }
+  .verdict h3 {
+    font-family: var(--serif); font-size: 1.4rem;
+    font-weight: 300; line-height: 1.3;
+    margin-bottom: 1rem; color: #e8e4dc;
+  }
+  .verdict p {
+    font-family: var(--sans); font-size: 0.92rem;
+    line-height: 1.75; color: #9a9690;
+    max-width: 66ch; margin-bottom: 0.9rem;
+  }
+  .verdict p strong { color: #e8e4dc; }
+  .checklist { list-style: none; margin-top: 1.25rem; }
+  .checklist li {
+    display: flex; gap: 1rem; align-items: baseline;
+    font-family: var(--sans); font-size: 0.88rem;
+    color: #9a9690; line-height: 1.55;
+    padding: 0.5rem 0; border-bottom: 1px solid #2a2a26;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li .n {
+    font-family: var(--mono); font-size: 0.65rem;
+    color: #5aaa78; flex-shrink: 0; min-width: 16px;
+  }
+
+  /* DISCLAIMER */
+  .disclaimer {
+    margin-top: 3rem; padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono); font-size: 0.65rem;
+    line-height: 1.7; color: var(--ink3);
+    letter-spacing: 0.02em;
+  }
+
+  @media (max-width: 600px) {
+    .gate-split { grid-template-columns: 1fr; }
+    .stats-row { flex-direction: column; }
+    .stat { border-right: none; border-bottom: 1px solid var(--rule2); }
+    .stat:last-child { border-bottom: none; }
+    .masthead, .content { padding-left: 1.25rem; padding-right: 1.25rem; }
+  }
 </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
-<div id="topbar">
-  <div class="brand">HIDDEN <span>LEAF</span> EQUITY RESEARCH</div>
-  <div class="ticker-tape">
-    <span><span class="t">SPX </span><span class="v">5,312 </span><span class="up">+0.87%</span></span>
-    <span><span class="t">NDX </span><span class="v">18,421 </span><span class="up">+1.12%</span></span>
-    <span><span class="t">WTI </span><span class="v">82.44 </span><span class="dn">-0.21%</span></span>
-    <span><span class="t">GOLD </span><span class="v">3,312 </span><span class="up">+0.55%</span></span>
-  </div>
-  <div class="clock" id="clock"></div>
-</div>
+<nav>
+  <span class="brand">HIDDEN <span>LEAF</span></span>
+  <a href="#overview">TRLEF</a>
+  <a href="#gate1">Gate I · Capital</a>
+  <a href="#gate2">Gate II · Dilution</a>
+  <a href="#gate3">Gate III · Drill</a>
+  <a href="#gate4">Gate IV · Oil Price</a>
+  <a href="#verdict">Verdict</a>
+</nav>
 
-<!-- LAYOUT -->
-<div id="layout">
-
-  <!-- SIDEBAR -->
-  <div id="sidebar">
-    <div id="sidebar-head">
-      <span class="label">COVERAGE (<span id="count">0</span>)</span>
-      <button id="new-btn" onclick="openModal()">+ NEW</button>
-    </div>
-    <div id="search-wrap">
-      <input id="search" placeholder="SEARCH TICKER / COMPANY..." oninput="filterList(this.value)" />
-    </div>
-    <div id="report-list"></div>
-  </div>
-
-  <!-- MAIN -->
-  <div id="main">
-    <div id="report-view"></div>
-    <div id="empty">
-      <div class="empty-icon">◈</div>
-      <div>NO REPORTS</div>
-      <div style="margin-top:4px; font-size:10px;">CLICK + NEW TO ADD YOUR FIRST THESIS</div>
-    </div>
-  </div>
-
-</div>
-
-<!-- ADD REPORT MODAL -->
-<div id="modal-overlay">
-  <div id="modal">
-    <h3>NEW RESEARCH REPORT</h3>
-    <div class="modal-row">
-      <div class="field">
-        <label>Ticker</label>
-        <input id="f-ticker" placeholder="AAPL" style="text-transform:uppercase;" />
-      </div>
-      <div class="field">
-        <label>Exchange</label>
-        <input id="f-exchange" placeholder="NASDAQ" style="text-transform:uppercase;" />
-      </div>
-    </div>
-    <div class="field">
-      <label>Company name</label>
-      <input id="f-company" placeholder="Apple Inc." />
-    </div>
-    <div class="modal-row">
-      <div class="field">
-        <label>Price</label>
-        <input id="f-price" placeholder="$182.50" />
-      </div>
-      <div class="field">
-        <label>Market cap</label>
-        <input id="f-mktcap" placeholder="$2.8T" />
-      </div>
-    </div>
-    <div class="modal-row">
-      <div class="field">
-        <label>Author</label>
-        <input id="f-author" placeholder="Luke" />
-      </div>
-      <div class="field">
-        <label>Stance</label>
-        <select id="f-stance">
-          <option value="bull">▲ Bullish</option>
-          <option value="bear">▼ Bearish</option>
-          <option value="neutral">— Neutral</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="field" style="margin-top:4px;">
-      <label>Sections</label>
-      <div id="sections-container"></div>
-      <button id="add-section-btn" onclick="addSection()">+ ADD SECTION</button>
-    </div>
-
-    <div class="modal-btns">
-      <button class="btn" onclick="closeModal()">CANCEL</button>
-      <button class="btn primary" onclick="saveReport()">SAVE REPORT</button>
-    </div>
+<div class="masthead">
+  <div class="masthead-eyebrow">TRLEF · OTCQB &nbsp;·&nbsp; <span>High-Risk Bull Case</span> &nbsp;·&nbsp; Luke &nbsp;·&nbsp; Apr 23 2026</div>
+  <h1>The bull case requires <em>four gates</em> to clear — in sequence.</h1>
+  <p class="masthead-sub">This is not a bear case. The geology, the operator, and the political de-risking are real. This is a structured account of what must go right, and what happens to the equity when any single gate fails.</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-l">Price (TRLEF)</div><div class="stat-v">~$0.030 USD</div></div>
+    <div class="stat"><div class="stat-l">Market Cap</div><div class="stat-v">~C$6M</div></div>
+    <div class="stat"><div class="stat-l">Shares Post-Rollback</div><div class="stat-v">41.6M</div></div>
+    <div class="stat"><div class="stat-l">2026 Tranche Required</div><div class="stat-v warn">US$9.5M</div></div>
+    <div class="stat"><div class="stat-l">Raise Announced</div><div class="stat-v warn">C$2.0M (~4%)</div></div>
+    <div class="stat"><div class="stat-l">Chapman Risked EV</div><div class="stat-v good">US$594M (North)</div></div>
   </div>
 </div>
 
-<script>
-const STORAGE_KEY = 'hler_reports_v1';
+<div class="content">
 
-let reports = [];
-let activeId = null;
+  <!-- OVERVIEW -->
+  <div class="overview" id="overview">
+    <p>Trillion Energy International (TRLEF / TCF) is a Vancouver-based micro-cap oil and gas explorer operating exclusively in Türkiye. Its primary asset is a 49% working interest in the SASB offshore natural gas field in the Black Sea — a declining asset the company is actively trying to sell. The new thesis rests entirely on the M47 Block in SE Turkey's Cudi-Gabar province, where Trillion is earning a 29% working interest via a US$15M farm-in. The region sits adjacent to TPAO's Gabar Mountain complex, which has grown from 25,000 to 70,000+ bopd since 2023 following the PKK ceasefire. The first well (Çetinkaya-1) confirmed mobile 32.4° API oil in the Mardin Group carbonates before being halted by lost circulation at 2,455m. The planned sidetrack (C-1ST) targets the untested structural crest 75–100m higher — the commercial test the discovery needs.</p>
+    <p>At ~C$6M market cap, the stock prices in near-zero success probability. A successful outcome could justify C$50–200M+. The four gates below define the path between those outcomes.</p>
+  </div>
 
-function load() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) reports = JSON.parse(raw);
-  } catch(e) { reports = []; }
-  if (reports.length === 0) seedDefault();
-}
-
-function save() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(reports));
-}
-
-function seedDefault() {
-  reports = [{
-    id: Date.now(),
-    ticker: 'TRLEF',
-    company: 'Trillion Energy International Inc.',
-    exchange: 'OTCQB',
-    price: '$0.030',
-    mktcap: '$8.15M CAD',
-    author: 'Luke',
-    date: 'APR 23 2026',
-    stance: 'bull',
-    sections: [
-      { label: 'Company Overview', body: 'Trillion Energy is a micro-cap Canadian oil & gas explorer focused entirely on Türkiye. Incorporated in 2015 (formerly Park Place Energy), it holds a 49% working interest in the SASB offshore natural gas field in the Black Sea, a 19.6% stake in the Cendere oil field, and — as of early 2026 — a new agreement to earn a 29% working interest in the M47 Block in SE Turkey\'s Cudi-Gabar petroleum province. Headquartered in Vancouver. ~10 employees.', verdict: false },
-      { label: 'Bull Case', body: 'The M47 block sits 12km from Turkey\'s biggest onshore oil discovery, in a province producing 81,000 boe/d from fields that didn\'t exist five years ago. Geology doesn\'t stop at property lines. At a ~$5–8M CAD market cap, the stock is pricing in near-zero exploration success — meaning any positive well result would reprice dramatically. A successful discovery could support a $50–75M+ CAD valuation, implying 8–12x from current levels on a post-consolidation basis. The macro backdrop helps: European energy security concerns make domestic Turkish oil commercially and politically valuable.', verdict: false },
-      { label: 'Key Risks', body: 'Dry holes would likely be fatal. The company carries ~CAD$16.4M in convertible debentures due; if a CAD$10M+ brokered financing isn\'t completed by Sep 30 2026, the full balance becomes immediately payable. They need US$9.5M for the 2026 M47 work program alone — the current $2M private placement is insufficient, meaning further dilution is near-certain. Revenue fell 58% in 2024 to $7M with $9.1M in losses. No hedge funds hold the stock.', verdict: false },
-      { label: 'Verdict', body: 'High-conviction lottery ticket structure. The bull case is real and internally consistent, but the probability distribution is heavily skewed toward loss. Size accordingly — treat as a position you are comfortable losing entirely.', verdict: true }
-    ]
-  }];
-  save();
-}
-
-function renderList(filter) {
-  const list = document.getElementById('report-list');
-  const filtered = filter
-    ? reports.filter(r => r.ticker.includes(filter.toUpperCase()) || r.company.toLowerCase().includes(filter.toLowerCase()))
-    : reports;
-  document.getElementById('count').textContent = reports.length;
-  list.innerHTML = filtered.map(r => `
-    <div class="ritem ${r.id === activeId ? 'active' : ''}" onclick="setActive(${r.id})">
-      <div class="rticker">${r.ticker}</div>
-      <div class="rname">${r.company}</div>
-      <div class="rmeta">${r.date} · ${r.author}</div>
-      <span class="rbadge ${r.stance}">${r.stance === 'bull' ? '▲ BULLISH' : r.stance === 'bear' ? '▼ BEARISH' : '— NEUTRAL'}</span>
-    </div>
-  `).join('');
-}
-
-function renderContent() {
-  const view = document.getElementById('report-view');
-  const empty = document.getElementById('empty');
-  const r = reports.find(x => x.id === activeId);
-  if (!r) {
-    view.innerHTML = '';
-    empty.style.display = 'flex';
-    return;
-  }
-  empty.style.display = 'none';
-  const sectionsHtml = r.sections.map(s => `
-    <div class="section">
-      <div class="section-label">${s.label}</div>
-      <div class="${s.verdict ? `verdict ${r.stance === 'bear' ? 'bear' : ''}` : 'section-body'}">${s.body}</div>
-    </div>
-  `).join('');
-  view.innerHTML = `
-    <div class="fade-in">
-      <div id="report-header">
-        <div class="ticker-row">
-          <span class="h-ticker">${r.ticker}</span>
-          <span class="h-company">${r.company}</span>
+  <!-- GATE I -->
+  <div class="section" id="gate1">
+    <div class="section-label"><span>Gate I</span> · The existential gate</div>
+    <h2>Capital: the 2026 tranche gets <em>funded</em></h2>
+    <p>The farm-in requires US$9.5M in 2026 and US$5.5M in 2027. The April 17 placement covers roughly 4% of that. The remaining US$9.1M must be sourced before the tranche deadline or Trillion forfeits its 29% working interest entirely. This gate is the prerequisite for everything else — without it, the Chapman valuation is an academic exercise.</p>
+    <div class="gate">
+      <div class="gate-tag">Gate I · Capital · What needs to happen</div>
+      <h3>A US$10M+ raise or strategic partnership closes the 2026 tranche in full at C$0.20 or higher post-consolidation.</h3>
+      <p>A strategic investor — a mid-cap Turkish or international E&P — is a cleaner outcome than a retail placement because it introduces a counterparty with operational credibility. The signal to watch is not the C$2M bridge raise already announced. It is the <strong>second raise</strong>: its size, price, and investor type are the most informative data points in the next 60 days.</p>
+      <div class="gate-split">
+        <div>
+          <div class="gate-split-label pass">✓ Gate clears</div>
+          <p>Farm-in preserved. Market likely re-rates to C$15–40M on announcement alone — a 3–7× before a single new drill result.</p>
         </div>
-        <div class="h-meta">
-          <span>${r.exchange}</span>
-          <span class="price">${r.price}</span>
-          <span>MKT CAP ${r.mktcap}</span>
-          <span>BY ${r.author}</span>
-          <span>${r.date}</span>
-          <span class="rbadge ${r.stance}" style="font-size:9px;">${r.stance === 'bull' ? '▲ BULLISH' : r.stance === 'bear' ? '▼ BEARISH' : '— NEUTRAL'}</span>
+        <div>
+          <div class="gate-split-label fail">✗ Gate fails</div>
+          <p>Working interest forfeited. Remaining asset is a 7% GORR on declining SASB. Equity likely trades at C$1–2M. Near-total loss.</p>
         </div>
       </div>
-      ${sectionsHtml}
-      <div style="margin-top:28px; padding-top:16px; border-top:1px solid var(--border); display:flex; gap:10px;">
-        <button class="btn" onclick="deleteReport(${r.id})" style="color:var(--red); border-color:var(--red-dim);">DELETE REPORT</button>
+    </div>
+  </div>
+
+  <!-- GATE II -->
+  <div class="section" id="gate2">
+    <div class="section-label"><span>Gate II</span> · The silent destroyer</div>
+    <h2>Dilution: capital arrives without <em>destroying per-share value</em></h2>
+    <p>The bull case assumes funding is raised at prices that preserve existing shareholders' exposure to the upside. This is a separate, underappreciated gate. The dilution math at different raise prices is stark: raising US$13M equiv. at C$0.30 adds 56M shares (97.6M total); at C$0.10, it adds 168M shares (209.6M total), collapsing per-share Chapman value from ~C$14 to ~C$5.40. A 10× news event can produce a 3× stock return if this gate fails.</p>
+    <div class="gate amber">
+      <div class="gate-tag">Gate II · Dilution · What needs to happen</div>
+      <h3>The full US$15M earn-in is funded at C$0.20 or higher, keeping total diluted share count under ~130M.</h3>
+      <p>Trillion's recent history of sub-threshold raises — shares-for-debenture-interest, C$0.035 settlements in late 2025 — makes this gate genuinely uncertain. Serial dilution at low prices is not a failure of geology. It is a capital-structure failure that can coexist with a working oil discovery and still produce a poor return for holders of today's shares.</p>
+      <div class="gate-split">
+        <div>
+          <div class="gate-split-label pass">✓ Gate clears</div>
+          <p>Raises at C$0.20–0.35 keep per-share exposure intact. A successful drill can still produce 20–50× from today.</p>
+        </div>
+        <div>
+          <div class="gate-split-label fail">✗ Gate fails</div>
+          <p>Distressed raises at C$0.08–0.12 inflate share count 4–5×. A successful drill produces 3–7× instead of 20–50×.</p>
+        </div>
       </div>
     </div>
-  `;
-}
+  </div>
 
-function setActive(id) {
-  activeId = id;
-  renderList();
-  renderContent();
-}
+  <!-- GATE III -->
+  <div class="section" id="gate3">
+    <div class="section-label"><span>Gate III</span> · The commercial test</div>
+    <h2>The drill: C-1ST confirms commercial <em>flow rates</em></h2>
+    <p>Even with funding secured at acceptable dilution, the central geological question is unresolved. C-1 confirmed mobile oil and fracture connectivity but was halted before a sustained production test. The sidetrack targets the structural crest 75–100m higher — the modeled thicker oil column. Analogue wells in the same Mardin Group carbonates 11km away produce 10,000+ bopd. Even 500–2,000 bopd sustained would establish commercial viability and move contingent resources toward reserves under NI 51-101.</p>
+    <div class="gate green">
+      <div class="gate-tag">Gate III · Geology · What needs to happen</div>
+      <h3>C-1ST reaches the structural crest, runs a sustained flow test, and establishes stabilised rates of ≥500 bopd.</h3>
+      <p>One near-term pre-sidetrack signal is often overlooked: Zone A — 13m of unperforated net pay in the existing C-1 wellbore — requires only a perforation and swab test, no new drilling cost. A successful Zone A test in H2 2026 would be the earliest evidence the existing wellbore can produce commercially and would materially de-risk C-1ST. Three failure modes exist: loss of circulation (the same mechanism that stopped C-1), oil-water contact shallower than modeled, or low matrix permeability despite acid stimulation.</p>
+      <div class="gate-split">
+        <div>
+          <div class="gate-split-label pass">✓ Gate clears</div>
+          <p>NI 51-101 reserves reclassification. Re-rating toward Chapman's US$594M risked EV. C$50–200M market cap within 12–24 months.</p>
+        </div>
+        <div>
+          <div class="gate-split-label fail">✗ Gate fails</div>
+          <p>Resource estimate collapses. Capital was deployed, hole was drilled, geology disappointed. Stock returns to near-zero.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-function filterList(q) { renderList(q); }
+  <!-- GATE IV -->
+  <div class="section" id="gate4">
+    <div class="section-label"><span>Gate IV</span> · The necessary tailwind</div>
+    <h2>Macro: oil stays <em>above the economic threshold</em></h2>
+    <p>Chapman's US$733.5M unrisked NPV-10 is price-path-dependent. At current Brent of ~US$66/bbl, development economics are workable but not generous. The Turkish fiscal regime — 12.5% royalty, capped corporate tax — provides structural cost protection. But a sustained decline toward US$50–55 compresses the unrisked NPV-10 to a level where development risk may no longer be justified. Unlike the first three gates, this one is entirely outside management's control, and its failure mode is a scalar impairment rather than a binary loss.</p>
+    <div class="gate amber">
+      <div class="gate-tag">Gate IV · Macro · What needs to happen</div>
+      <h3>Brent crude remains above US$55–60/bbl through the development window. The economics are marginal at US$50 and compelling at US$70+.</h3>
+      <p>Turkish light 32.4° API oil commands a premium to Brent in regional markets, which provides modest natural hedging on the downside. This gate is best modeled as a return scalar rather than a binary pass/fail — a Brent decline to US$55 impairs the upside without typically producing a near-zero equity outcome on its own. Monitor alongside news flow rather than treating as a primary thesis driver.</p>
+      <div class="gate-split">
+        <div>
+          <div class="gate-split-label pass">✓ Gate clears</div>
+          <p>Brent above US$65 through 2027–28. Full Chapman value supportable. Turkish light premium intact in regional markets.</p>
+        </div>
+        <div>
+          <div class="gate-split-label fail">✗ Gate fails</div>
+          <p>Sustained sub-US$55 compresses development economics. Partners may defer. The re-rate thesis requires both drilling success and oil price recovery — a two-variable dependency.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-/* MODAL */
-let sectionCount = 0;
-function openModal() {
-  document.getElementById('f-ticker').value = '';
-  document.getElementById('f-exchange').value = '';
-  document.getElementById('f-company').value = '';
-  document.getElementById('f-price').value = '';
-  document.getElementById('f-mktcap').value = '';
-  document.getElementById('f-author').value = '';
-  document.getElementById('f-stance').value = 'bull';
-  document.getElementById('sections-container').innerHTML = '';
-  sectionCount = 0;
-  addSection('Bull Case', '');
-  addSection('Key Risks', '');
-  addSection('Verdict', '');
-  document.getElementById('modal-overlay').classList.add('open');
-}
-function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+  <!-- SCENARIO TABLE -->
+  <div class="section">
+    <div class="section-label"><span>§</span> · Scenario matrix</div>
+    <h2>Five paths through the <em>gate sequence</em></h2>
+    <table class="scenario-table">
+      <thead>
+        <tr>
+          <th>Gate I</th><th>Gate II</th><th>Gate III</th><th>Implied outcome</th><th>Price range</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag pass">Pass</span></td>
+          <td><span class="tag pass">Pass</span></td>
+          <td><span class="tag pass">Pass</span></td>
+          <td>Full bull case. C-1ST commercial, low dilution. Re-rate toward C$50–200M.</td>
+          <td><strong>C$1.20–4.00+</strong></td>
+        </tr>
+        <tr>
+          <td><span class="tag pass">Pass</span></td>
+          <td><span class="tag pass">Pass</span></td>
+          <td><span class="tag fail">Fail</span></td>
+          <td>Funded but dry. Geology disappoints after capital deployed. Stock returns to near-zero.</td>
+          <td>C$0.02–0.05</td>
+        </tr>
+        <tr>
+          <td><span class="tag pass">Pass</span></td>
+          <td><span class="tag fail">Fail</span></td>
+          <td><span class="tag pass">Pass</span></td>
+          <td>Discovery confirmed but per-share value compressed by heavy dilution. 10× news = 3× stock.</td>
+          <td>C$0.08–0.18</td>
+        </tr>
+        <tr>
+          <td><span class="tag pass">Pass</span></td>
+          <td><span class="tag fail">Fail</span></td>
+          <td><span class="tag fail">Fail</span></td>
+          <td>Capital raised at distressed prices into a dry hole. Maximum destruction.</td>
+          <td>C$0.01–0.03</td>
+        </tr>
+        <tr>
+          <td><span class="tag fail">Fail</span></td>
+          <td><span class="tag na">—</span></td>
+          <td><span class="tag na">—</span></td>
+          <td>Farm-in forfeited. Residual GORR only. Probable delisting risk over 18–24 months.</td>
+          <td>C$0.01–0.02</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-function addSection(label, body) {
-  const id = sectionCount++;
-  const wrap = document.createElement('div');
-  wrap.className = 'sec-row';
-  wrap.dataset.id = id;
-  wrap.innerHTML = `
-    <input placeholder="Section label" value="${label || ''}" class="sec-label" />
-    <textarea placeholder="Section content..." class="sec-body" rows="3">${body || ''}</textarea>
-    <button class="remove-sec" onclick="this.closest('.sec-row').remove()">×</button>
-  `;
-  document.getElementById('sections-container').appendChild(wrap);
-}
+  <!-- VERDICT -->
+  <div class="verdict" id="verdict">
+    <div class="verdict-label">Verdict · Hidden Leaf Equity Research</div>
+    <h3>The bull case is conditionally correct — staged conviction is the right posture.</h3>
+    <p>The geology is real. The political de-risking is real. The historical comparable re-rates are real. What this analysis argues is that an investor who buys on the strength of those facts alone has underspecified the problem. There are four gates, not one. The most important — capital — has so far been addressed with a raise covering 4% of the requirement. The most dangerous — dilution — is entirely silent in most bull-case presentations. The most binary — the drill — is 12–18 months away.</p>
+    <p>The correct posture is <strong>staged conviction</strong>: a position sized for the Gate I failure probability today, with a pre-committed decision rule to add on Gate I confirmation and again on Zone A or Findık-2 success. This captures ~70–80% of the upside while eliminating most downside from the one scenario that produces near-total loss on information the market doesn't yet have.</p>
+    <ul class="checklist">
+      <li><span class="n">01</span>Watch the second placement — price, size, and investor type are the three most informative data points in the next 60 days.</li>
+      <li><span class="n">02</span>Zone A perforation (zero drill cost) is the cheapest geological test on the board. Success here changes the C-1ST probability distribution materially.</li>
+      <li><span class="n">03</span>Dilution math matters as much as discovery math. Know your break-even share count before sizing up.</li>
+      <li><span class="n">04</span>Oil at US$66 is workable, not comfortable. A sustained move below US$55 changes development economics.</li>
+      <li><span class="n">05</span>The full 10×–50× return requires Gates I, II, and III to clear sequentially. Each gate confirmation is its own re-rating event and its own decision point.</li>
+    </ul>
+  </div>
 
-function saveReport() {
-  const ticker = document.getElementById('f-ticker').value.trim().toUpperCase();
-  if (!ticker) { alert('Ticker is required'); return; }
-  const rows = document.querySelectorAll('#sections-container .sec-row');
-  const sections = [];
-  rows.forEach(row => {
-    const lbl = row.querySelector('.sec-label').value.trim();
-    const bdy = row.querySelector('.sec-body').value.trim();
-    if (lbl || bdy) sections.push({ label: lbl || 'Note', body: bdy, verdict: lbl.toLowerCase() === 'verdict' });
-  });
-  const now = new Date();
-  const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-  const dateStr = `${months[now.getMonth()]} ${String(now.getDate()).padStart(2,'0')} ${now.getFullYear()}`;
-  const rep = {
-    id: Date.now(),
-    ticker,
-    company: document.getElementById('f-company').value.trim() || ticker,
-    exchange: document.getElementById('f-exchange').value.trim().toUpperCase() || 'OTC',
-    price: document.getElementById('f-price').value.trim() || '—',
-    mktcap: document.getElementById('f-mktcap').value.trim() || '—',
-    author: document.getElementById('f-author').value.trim() || 'Anonymous',
-    date: dateStr,
-    stance: document.getElementById('f-stance').value,
-    sections
-  };
-  reports.unshift(rep);
-  save();
-  activeId = rep.id;
-  closeModal();
-  renderList();
-  renderContent();
-}
+  <div class="disclaimer">
+    IMPORTANT · INDEPENDENT RESEARCH · NOT INVESTMENT ADVICE. This report is prepared for informational and analytical purposes only and does not constitute a recommendation, solicitation, or offer to buy or sell any security. Junior exploration and production companies carry a high probability of substantial or total loss of invested capital. All figures in USD unless otherwise noted. Data as of April 22–23, 2026.
+  </div>
 
-function deleteReport(id) {
-  if (!confirm('Delete this report?')) return;
-  reports = reports.filter(r => r.id !== id);
-  save();
-  activeId = reports.length ? reports[0].id : null;
-  renderList();
-  renderContent();
-}
-
-/* CLOCK */
-function updateClock() {
-  const now = new Date();
-  const h = String(now.getHours()).padStart(2,'0');
-  const m = String(now.getMinutes()).padStart(2,'0');
-  const s = String(now.getSeconds()).padStart(2,'0');
-  document.getElementById('clock').textContent = `${h}:${m}:${s} EDT`;
-}
-setInterval(updateClock, 1000);
-updateClock();
-
-/* INIT */
-load();
-if (reports.length) activeId = reports[0].id;
-renderList();
-renderContent();
-
-/* Close modal on overlay click */
-document.getElementById('modal-overlay').addEventListener('click', e => {
-  if (e.target === document.getElementById('modal-overlay')) closeModal();
-});
-</script>
+</div>
 </body>
 </html>
