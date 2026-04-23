@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NOW · Hidden Leaf Equity Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a18;
+    --ink2: #4a4a46;
+    --ink3: #8a8a84;
+    --paper: #f8f6f2;
+    --paper2: #f0ede8;
+    --rule: #dedad4;
+    --rule2: #ccc9c2;
+    --green: #1a6e3c;
+    --green-bg: #eaf4ee;
+    --red: #b83c1e;
+    --red-bg: #fdf0ec;
+    --amber: #8a5e00;
+    --amber-bg: #fdf6e8;
+    --accent: #1a4a7a;
+    --mono: 'IBM Plex Mono', monospace;
+    --serif: 'IBM Plex Serif', serif;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  html { font-size: 15px; scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--ink);
+    display: flex; align-items: center;
+    padding: 0 2rem; height: 40px;
+    font-family: var(--mono); font-size: 0.65rem;
+    letter-spacing: 0.07em; overflow-x: auto; white-space: nowrap;
+    gap: 0;
+  }
+  nav .brand { color: #fff; font-weight: 600; margin-right: 1.5rem; letter-spacing: 0.1em; }
+  nav .brand span { color: #5aaa78; }
+  nav a {
+    color: #888; text-decoration: none;
+    padding: 0 0.85rem; height: 40px;
+    display: inline-flex; align-items: center;
+    border-left: 1px solid #333;
+    transition: color 0.15s;
+  }
+  nav a:hover { color: #fff; }
+
+  .masthead {
+    padding: 3rem 2rem 2.5rem;
+    border-bottom: 1px solid var(--rule2);
+    max-width: 860px; margin: 0 auto;
+  }
+  .masthead-eyebrow {
+    font-family: var(--mono); font-size: 0.62rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink3); margin-bottom: 1rem;
+  }
+  .masthead-eyebrow span { color: var(--accent); }
+  .masthead h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 300; line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem; max-width: 780px;
+  }
+  .masthead h1 em { font-style: italic; color: var(--accent); }
+  .masthead-sub {
+    font-family: var(--serif); font-size: 1rem;
+    font-weight: 300; color: var(--ink2);
+    max-width: 640px; line-height: 1.75;
+    margin-bottom: 1.75rem;
+  }
+  .stats-row {
+    display: flex; flex-wrap: wrap; gap: 0;
+    border: 1px solid var(--rule2);
+  }
+  .stat {
+    padding: 0.6rem 1.1rem;
+    border-right: 1px solid var(--rule2);
+    min-width: 130px;
+  }
+  .stat:last-child { border-right: none; }
+  .stat-l {
+    font-family: var(--mono); font-size: 0.57rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink3); margin-bottom: 0.2rem;
+  }
+  .stat-v {
+    font-family: var(--mono); font-size: 0.88rem;
+    color: var(--ink); font-weight: 500;
+  }
+  .stat-v.warn { color: var(--red); }
+  .stat-v.good { color: var(--green); }
+  .stat-v.amber { color: var(--amber); }
+
+  .content { max-width: 860px; margin: 0 auto; padding: 0 2rem 5rem; }
+
+  .overview {
+    padding: 2.5rem 0 2rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .overview p {
+    font-family: var(--serif); font-size: 1rem;
+    line-height: 1.8; color: var(--ink2);
+    max-width: 72ch; margin-bottom: 0.9rem;
+  }
+  .overview p:last-child { margin-bottom: 0; }
+
+  .section {
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--rule);
+    margin-top: 2.5rem;
+  }
+  .section-label {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink3); margin-bottom: 0.4rem;
+  }
+  .section-label span { color: var(--accent); }
+  .section h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.3rem, 3vw, 1.75rem);
+    font-weight: 300; line-height: 1.25;
+    margin-bottom: 1rem; letter-spacing: -0.01em;
+  }
+  .section h2 em { font-style: italic; color: var(--accent); }
+  .section p {
+    font-family: var(--serif); font-size: 1rem;
+    line-height: 1.8; color: var(--ink2);
+    max-width: 72ch; margin-bottom: 0.9rem;
+  }
+
+  .gate {
+    background: var(--paper2);
+    border: 1px solid var(--rule2);
+    border-left: 3px solid var(--red);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .gate.amber { border-left-color: var(--amber); }
+  .gate.green { border-left-color: var(--green); }
+  .gate.blue { border-left-color: var(--accent); }
+  .gate-tag {
+    font-family: var(--mono); font-size: 0.58rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink3); margin-bottom: 0.4rem;
+  }
+  .gate h3 {
+    font-family: var(--serif); font-size: 1.05rem;
+    font-weight: 600; line-height: 1.35;
+    margin-bottom: 0.65rem; color: var(--ink);
+  }
+  .gate p {
+    font-family: var(--sans); font-size: 0.9rem;
+    line-height: 1.65; color: var(--ink2);
+    max-width: none; margin-bottom: 0;
+  }
+  .gate-split {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1rem; margin-top: 1rem;
+    padding-top: 1rem; border-top: 1px solid var(--rule);
+  }
+  .gate-split-label {
+    font-family: var(--mono); font-size: 0.58rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+  .gate-split-label.pass { color: var(--green); }
+  .gate-split-label.fail { color: var(--red); }
+  .gate-split p {
+    font-family: var(--sans); font-size: 0.85rem;
+    line-height: 1.55; color: var(--ink2); margin: 0;
+  }
+
+  .scenario-table {
+    width: 100%; border-collapse: collapse;
+    margin: 1.5rem 0; font-family: var(--sans);
+    font-size: 0.85rem;
+  }
+  .scenario-table th {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink3); text-align: left;
+    padding: 0.5rem 0.85rem;
+    border-bottom: 1px solid var(--ink);
+    background: var(--paper2);
+  }
+  .scenario-table td {
+    padding: 0.65rem 0.85rem;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top; line-height: 1.5;
+    color: var(--ink2);
+  }
+  .scenario-table tr:last-child td { border-bottom: none; }
+  .scenario-table tr:hover td { background: var(--paper2); }
+  .tag {
+    display: inline-block;
+    font-family: var(--mono); font-size: 0.58rem;
+    letter-spacing: 0.07em; text-transform: uppercase;
+    padding: 0.15rem 0.5rem; margin-right: 0.2rem;
+  }
+  .tag.pass { background: var(--green-bg); color: var(--green); }
+  .tag.fail { background: var(--red-bg); color: var(--red); }
+  .tag.na { background: var(--paper2); color: var(--ink3); border: 1px solid var(--rule2); }
+
+  .verdict {
+    background: var(--ink); color: #e8e4dc;
+    padding: 2rem 2.25rem; margin-top: 2.5rem;
+  }
+  .verdict-label {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: #5aaa78; margin-bottom: 0.5rem;
+  }
+  .verdict h3 {
+    font-family: var(--serif); font-size: 1.4rem;
+    font-weight: 300; line-height: 1.3;
+    margin-bottom: 1rem; color: #e8e4dc;
+  }
+  .verdict p {
+    font-family: var(--sans); font-size: 0.92rem;
+    line-height: 1.75; color: #9a9690;
+    max-width: 66ch; margin-bottom: 0.9rem;
+  }
+  .verdict p strong { color: #e8e4dc; }
+  .checklist { list-style: none; margin-top: 1.25rem; }
+  .checklist li {
+    display: flex; gap: 1rem; align-items: baseline;
+    font-family: var(--sans); font-size: 0.88rem;
+    color: #9a9690; line-height: 1.55;
+    padding: 0.5rem 0; border-bottom: 1px solid #2a2a26;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li .n {
+    font-family: var(--mono); font-size: 0.65rem;
+    color: #5aaa78; flex-shrink: 0; min-width: 16px;
+  }
+
+  .disclaimer {
+    margin-top: 3rem; padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono); font-size: 0.65rem;
+    line-height: 1.7; color: var(--ink3);
+    letter-spacing: 0.02em;
+  }
+
+  @media (max-width: 600px) {
+    .gate-split { grid-template-columns: 1fr; }
+    .stats-row { flex-direction: column; }
+    .stat { border-right: none; border-bottom: 1px solid var(--rule2); }
+    .stat:last-child { border-bottom: none; }
+    .masthead, .content { padding-left: 1.25rem; padding-right: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="brand">HIDDEN <span>LEAF</span></span>
+  <a href="index.html">← All Reports</a>
+  <a href="#overview">NOW</a>
+  <a href="#condition1">Condition I · Moat</a>
+  <a href="#condition2">Condition II · AI</a>
+  <a href="#condition3">Condition III · Margin</a>
+  <a href="#condition4">Condition IV · Valuation</a>
+  <a href="#verdict">Verdict</a>
+</nav>
+
+<div class="masthead">
+  <div class="masthead-eyebrow">NOW · NYSE &nbsp;·&nbsp; <span>Dip Buy Analysis</span> &nbsp;·&nbsp; Luke &nbsp;·&nbsp; Apr 23 2026</div>
+  <h1>The SaaS selloff has created a <em>potential entry point</em> — but four conditions must hold.</h1>
+  <p class="masthead-sub">ServiceNow is down 45% year to date and 60% from its 52-week high. This morning's 18% post-earnings drop came despite a beat-and-raise quarter. The question is whether the market is pricing in a structural threat that doesn't exist — or one that does.</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-l">Price (NOW)</div><div class="stat-v warn">~$85 USD</div></div>
+    <div class="stat"><div class="stat-l">52-Week High</div><div class="stat-v">$211.48</div></div>
+    <div class="stat"><div class="stat-l">YTD Decline</div><div class="stat-v warn">−45%</div></div>
+    <div class="stat"><div class="stat-l">FY25 Revenue</div><div class="stat-v good">$13.28B (+21%)</div></div>
+    <div class="stat"><div class="stat-l">FY26 Sub Rev Guide</div><div class="stat-v good">$15.74–15.78B</div></div>
+    <div class="stat"><div class="stat-l">Forward P/E</div><div class="stat-v amber">~23x</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="overview" id="overview">
+    <p>ServiceNow is the dominant enterprise workflow automation platform, built on a single cloud architecture that spans IT service management, HR, customer operations, legal, finance, and security. It serves ~85% of the Fortune 500. The model is classic SaaS land-and-expand: sell IT, then crawl across every department in the enterprise. Revenue has compounded at ~20% annually for five consecutive years. Free cash flow margin runs at 35%. The business has never missed a quarter.</p>
+    <p>The stock is down 45% year to date — not because the business deteriorated, but because of a sector-wide "SaaSpocalypse" panic triggered by Anthropic's agentic AI launch in February 2026, which caused investors to fear AI would make traditional SaaS obsolete. This morning, NOW dropped another 18% after Q1 earnings despite beating revenue estimates, raising full-year guidance, and reporting Now Assist AI ACV tracking toward $1.5B. The sell trigger was a 75bps subscription revenue drag from large on-premise deals in the Middle East slipping due to the Iran conflict, plus margin compression from the $7.75B Armis acquisition. The question for a prospective buyer today is whether those are structural problems or temporary noise.</p>
+  </div>
+
+  <!-- CONDITION I: MOAT -->
+  <div class="section" id="condition1">
+    <div class="section-label"><span>Condition I</span> · The foundation</div>
+    <h2>The moat is <em>real and sticky</em> — AI doesn't obviously kill it</h2>
+    <p>The "SaaS is dead" thesis assumes AI agents will replace the workflow automation layer that ServiceNow provides. This is a plausible long-run threat but a poor description of the next 3–5 years. ServiceNow's competitive position rests on three things that are genuinely hard to replicate: 15+ years of enterprise workflow data, deep integration into the IT and HR nervous systems of Fortune 500 companies, and switching costs so high that ripping it out requires a multi-year re-implementation. Morningstar rates it a wide-moat business. The real AI risk isn't displacement — it's that AI makes the platform itself more powerful, which is what Now Assist is attempting to monetize.</p>
+    <div class="gate green">
+      <div class="gate-tag">Condition I · Moat · The foundation of the thesis</div>
+      <h3>ServiceNow is an AI control tower, not an AI casualty. Enterprises need workflow orchestration more, not less, as they deploy agents.</h3>
+      <p>CEO Bill McDermott's framing — that ServiceNow is the "AI control tower for business reinvention" — is not just marketing. As enterprises deploy AI agents across departments, they need a system of record to govern them. ServiceNow is the incumbent in that role. The bear case requires believing that a new AI-native competitor can displace 15 years of embedded enterprise data and workflow logic in a meaningful timeframe. The historical base rate for that kind of displacement in enterprise software is very low.</p>
+      <div class="gate-split">
+        <div>
+          <div class="gate-split-label pass">✓ Condition holds</div>
+          <p>AI amplifies the platform. Now Assist ACV reaches $1.5B+. Enterprises pay a premium for AI-powered workflows on existing infrastructure. The moat widens.</p>
+        </div>
+        <div>
+          <div class="gate-split-label fail">✗ Condition breaks</div>
+          <p>A new AI-native entrant (OpenAI, Anthropic, or a vertical competitor) wins greenfield enterprise deployments faster than expected, structurally capping NOW's TAM expansion.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONDITION II: AI MONETIZATION -->
+  <div class="section" id="condition2">
+    <div class="section-label"><span>Condition II</span> · The growth driver</div>
+    <h2>Now Assist actually <em>monetizes</em> at scale</h2>
+    <p>ServiceNow has embedded AI across all its SKUs rather than charging a separate AI add-on. The Now Assist ACV target was raised to $1.5B this quarter — a meaningful number for a platform that generated $13.3B in subscription revenue in FY25. The company reports 16 transactions over $5M in new ACV in Q1 2026, up ~80% year over year. The AI transition is real in deal flow. The question is whether AI capabilities justify pricing expansion or simply prevent churn — two very different outcomes for the growth story.</p>
+    <div class="gate blue">
+      <div class="gate-tag">Condition II · AI Monetization · The growth driver</div>
+      <h3>Now Assist must drive measurable net new ACV, not just retain existing contracts. The $1.5B target needs to represent expansion, not re-labeling.</h3>
+      <p>The embedded-AI pricing model (AI baked into all SKUs rather than a separate upsell) is strategically sensible but analytically opaque — it makes it harder to isolate whether AI is genuinely driving incremental revenue or simply being claimed as a contribution to existing growth. The May 4 analyst day is the next meaningful opportunity to get clarity on this question. Watch for specific disclosure on net new logos attributable to AI features, average ACV expansion in AI-upgraded contracts, and whether gross margin on AI-included SKUs is dilutive or accretive.</p>
+      <div class="gate-split">
+        <div>
+          <div class="gate-split-label pass">✓ Condition holds</div>
+          <p>Now Assist drives measurable ACV expansion. Enterprises pay meaningfully more for AI-enabled workflows. The growth re-accelerates above 22% as AI becomes a new expansion vector.</p>
+        </div>
+        <div>
+          <div class="gate-split-label fail">✗ Condition breaks</div>
+          <p>AI is defensive rather than offensive — it prevents competitive displacement but doesn't expand ACV. Growth decelerates toward 15–17% as the core ITSM market matures.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONDITION III: MARGIN -->
+  <div class="section" id="condition3">
+    <div class="section-label"><span>Condition III</span> · The profitability question</div>
+    <h2>Margin compression from Armis is <em>temporary</em>, not structural</h2>
+    <p>This is the condition most directly responsible for today's 18% drop. The Armis acquisition ($7.75B, closed late 2025) is compressing subscription gross margin from ~84% to a guided 81.5% for FY26, and also weighing on operating margin and free cash flow. Management characterized this as integration-related and transitional. The bear case is that AI infrastructure costs and the ongoing acquisition strategy (Armis, Veza, Moveworks) represent a permanent reset of the margin profile — that ServiceNow is trading a high-margin steady-state business for a lower-margin growth reinvestment cycle.</p>
+    <div class="gate amber">
+      <div class="gate-tag">Condition III · Margin · The profitability question</div>
+      <h3>Subscription gross margin must stabilize at or above 81.5% and recover toward 83%+ within 4–6 quarters as Armis integration costs normalize.</h3>
+      <p>A 250bps gross margin decline from 84% to 81.5% on a $13B revenue base is ~$325M in annual gross profit impact — not trivial. The key question is whether this is a one-time step-down or the beginning of a structural decline. Historical precedent in enterprise SaaS suggests acquisition-driven margin compression is typically transient (2–4 quarters), but that requires the acquired asset to integrate cleanly and not require ongoing subsidy. Armis is a cybersecurity asset with a different cost structure than ServiceNow's core platform. Watch for gross margin direction in Q2 and Q3 2026.</p>
+      <div class="gate-split">
+        <div>
+          <div class="gate-split-label pass">✓ Condition holds</div>
+          <p>Gross margin stabilizes at 81.5% in H1 2026 and recovers toward 83%+ by FY27 as integration costs normalize. The Rule of 55+ profile is preserved.</p>
+        </div>
+        <div>
+          <div class="gate-split-label fail">✗ Condition breaks</div>
+          <p>Further margin erosion below 80% signals the acquisition strategy is diluting the core business model. The premium multiple becomes difficult to justify at sub-80% gross margins with decelerating growth.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONDITION IV: VALUATION -->
+  <div class="section" id="condition4">
+    <div class="section-label"><span>Condition IV</span> · The entry point</div>
+    <h2>At ~$85, the valuation is <em>reasonable for what this business is</em></h2>
+    <p>This is the condition that makes the dip interesting. ServiceNow at $85 trades at roughly 23x forward earnings and about 5x forward revenue on a business guiding 20–21% subscription revenue growth with 35% FCF margins. For context, the stock traded at 60–70x forward earnings at its 52-week high. The consensus analyst price target still sits at ~$165 (Morningstar fair value: $165.52), implying roughly 95% upside from current levels. Canaccord called the reaction "punitive" and the stock "ridiculously cheap" for a durable 20% growth compounder at 35% FCF margins.</p>
+    <div class="gate green">
+      <div class="gate-tag">Condition IV · Valuation · The entry math</div>
+      <h3>At ~23x forward earnings on a 20%+ growth, 35% FCF margin business, the stock is pricing in either structural deterioration or permanent multiple compression — neither of which appears well-supported by the fundamentals.</h3>
+      <p>The risk to this condition is that the market is right and consensus is wrong — that AI disruption, margin compression, and federal budget headwinds justify a permanent de-rating from 50–60x to 20–25x. That would be consistent with the stock trading flat at current levels even if the business executes well. The counter-argument: at 23x earnings with 20% growth, you are paying a growth-adjusted multiple (PEG ~1.1x) that would be considered cheap for a mature business, let alone one compounding at this rate. The $5B buyback authorization and insider net buying into the weakness are corroborating signals.</p>
+      <div class="gate-split">
+        <div>
+          <div class="gate-split-label pass">✓ Condition holds</div>
+          <p>Market recognizes the selloff as an overreaction. Multiple re-rates toward 35–40x forward earnings as AI monetization becomes clearer. Stock recovers toward $130–165 within 12–18 months.</p>
+        </div>
+        <div>
+          <div class="gate-split-label fail">✗ Condition breaks</div>
+          <p>Multiple stays compressed at 20–25x as the market prices in permanent SaaS disruption. Even solid execution produces flat returns. The opportunity cost vs. other assets grows.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO TABLE -->
+  <div class="section">
+    <div class="section-label"><span>§</span> · Scenario matrix</div>
+    <h2>How the <em>conditions combine</em></h2>
+    <table class="scenario-table">
+      <thead>
+        <tr>
+          <th>Moat</th><th>AI Monetization</th><th>Margin</th><th>Implied outcome</th><th>Price range (12–18mo)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag pass">Holds</span></td>
+          <td><span class="tag pass">Holds</span></td>
+          <td><span class="tag pass">Holds</span></td>
+          <td>Full bull case. Re-rate toward consensus target. 20%+ growth + margin recovery + AI monetization = premium multiple justified.</td>
+          <td><strong>$150–200+</strong></td>
+        </tr>
+        <tr>
+          <td><span class="tag pass">Holds</span></td>
+          <td><span class="tag pass">Holds</span></td>
+          <td><span class="tag fail">Breaks</span></td>
+          <td>Growth story intact but multiple stays compressed by margin concerns. Decent but not exceptional return from here.</td>
+          <td>$105–130</td>
+        </tr>
+        <tr>
+          <td><span class="tag pass">Holds</span></td>
+          <td><span class="tag fail">Breaks</span></td>
+          <td><span class="tag pass">Holds</span></td>
+          <td>AI is defensive not offensive. Growth decelerates to 15–17%. Market prices a mature SaaS multiple. Modest upside only.</td>
+          <td>$90–110</td>
+        </tr>
+        <tr>
+          <td><span class="tag pass">Holds</span></td>
+          <td><span class="tag fail">Breaks</span></td>
+          <td><span class="tag fail">Breaks</span></td>
+          <td>Decelerating growth + margin compression. Re-rating continues. Flat to negative return from current levels.</td>
+          <td>$70–90</td>
+        </tr>
+        <tr>
+          <td><span class="tag fail">Breaks</span></td>
+          <td><span class="tag na">—</span></td>
+          <td><span class="tag na">—</span></td>
+          <td>Structural AI disruption scenario. New entrants take greenfield enterprise deployments. Multi-year de-rating.</td>
+          <td>$40–70</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict" id="verdict">
+    <div class="verdict-label">Verdict · Hidden Leaf Equity Research</div>
+    <h3>This looks like an overreaction to transient headwinds in a fundamentally sound business — but it's not risk-free.</h3>
+    <p>ServiceNow beat revenue estimates, raised full-year guidance, and showed accelerating AI deal flow. The stock dropped 18% anyway because of Middle East deal timing (explicitly flagged as one-time), margin compression from a large acquisition (historically transient), and sector-wide SaaS panic (narrative-driven, not fundamental). None of those are the business deteriorating. The moat is intact, the growth is real, and at 23x forward earnings you are not paying a heroic multiple for it.</p>
+    <p>The key difference from TRLEF: this is not a binary lottery ticket. The downside scenario where all four conditions fail simultaneously produces a stock in the $40–70 range — painful but not zero. The upside scenario where the market rerates toward fair value produces a double in 12–18 months. The risk/reward at $85 looks asymmetric for a patient buyer. <strong>The May 4 analyst day is the next major catalyst</strong> — management will address AI monetization, margin trajectory, and the acquisition roadmap directly. That is the right time to size up or stand down.</p>
+    <ul class="checklist">
+      <li><span class="n">01</span>Watch May 4 analyst day closely — AI monetization disclosure and margin guidance will either validate or challenge the thesis.</li>
+      <li><span class="n">02</span>Monitor Q2 2026 gross margin. Any further slippage below 81% would be a meaningful negative signal warranting position re-evaluation.</li>
+      <li><span class="n">03</span>The Middle East deal slippage (75bps drag) should reverse in Q2–Q3 if the Iran conflict de-escalates. Non-reversal would suggest the issue is broader than disclosed.</li>
+      <li><span class="n">04</span>Now Assist ACV trajectory is the most important leading indicator for the long-term thesis. Track deal counts and ACV per contract, not just headline ACV.</li>
+      <li><span class="n">05</span>Consider a staged approach: initial position at current levels, add on May 4 clarity or Q2 margin stabilization. This is not a situation that requires full conviction today.</li>
+    </ul>
+  </div>
+
+  <div class="disclaimer">
+    IMPORTANT · INDEPENDENT RESEARCH · NOT INVESTMENT ADVICE. This report is prepared for informational and analytical purposes only and does not constitute a recommendation, solicitation, or offer to buy or sell any security. All figures in USD. Data as of April 23, 2026.
+  </div>
+
+</div>
+</body>
+</html>
