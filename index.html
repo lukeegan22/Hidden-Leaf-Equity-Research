@@ -71,6 +71,13 @@
   .stat-cell:last-child { border-right: none; }
   .stat-l { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); margin-bottom: 0.2rem; }
   .stat-v { font-family: var(--mono); font-size: 0.88rem; color: var(--ink); font-weight: 500; }
+  .stat-cats { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.2rem; }
+  .scat { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.07em; text-transform: uppercase; padding: 0.2rem 0.55rem; }
+  .scat.dip-buy { background: var(--amber-bg); color: var(--amber); }
+  .scat.speculative { background: var(--red-bg); color: var(--red); }
+  .scat.growth { background: var(--green-bg); color: var(--green); }
+  .scat.short { background: #f8e8e8; color: #8a1a1a; }
+  .scat.macro { background: var(--blue-bg); color: var(--blue); }
 
   /* ── FILTERS ── */
   .filter-bar { display: flex; align-items: center; gap: 0; margin-bottom: 2rem; border-bottom: 1px solid var(--rule2); flex-wrap: wrap; }
@@ -119,6 +126,12 @@
   .entry-chg { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.05em; }
   .entry-chg.down { color: var(--red); }
   .entry-chg.up   { color: var(--green); }
+  .entry-live { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.05em; margin-top: 0.25rem; color: var(--ink3); }
+  .entry-live .lp { font-weight: 600; color: var(--ink); margin-right: 0.3rem; }
+  .entry-live .lc.up { color: var(--green); }
+  .entry-live .lc.dn { color: var(--red); }
+  .live-dot { display: inline-block; width: 5px; height: 5px; background: #5aaa78; border-radius: 50%; animation: pulse 2s infinite; margin-right: 0.3rem; vertical-align: middle; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.2} }
   .entry-arrow { font-family: var(--mono); font-size: 0.75rem; color: var(--ink3); margin-top: 0.5rem; transition: transform 0.12s; }
   .report-entry:hover .entry-arrow { color: var(--accent); transform: translateX(3px); }
 
@@ -174,7 +187,7 @@
     <div class="stat-cell"><div class="stat-l">Total Reports</div><div class="stat-v" id="total-count">—</div></div>
     <div class="stat-cell"><div class="stat-l">Authors</div><div class="stat-v">Luke, Leighton</div></div>
     <div class="stat-cell"><div class="stat-l">Latest</div><div class="stat-v" id="latest-date">—</div></div>
-    <div class="stat-cell"><div class="stat-l">Categories</div><div class="stat-v">Dip Buy · Speculative · Growth</div></div>
+    <div class="stat-cell"><div class="stat-l">Categories</div><div class="stat-cats"><span class="scat dip-buy">Dip Buy</span><span class="scat speculative">Speculative</span><span class="scat growth">Growth</span></div></div>
   </div>
 
   <div class="filter-bar">
@@ -229,6 +242,7 @@
         <div class="entry-right">
           <div class="entry-price">${r.price}</div>
           <div class="entry-chg ${r.changeDir}">${r.change}</div>
+          <div class="entry-live" id="live-${r.ticker}"><span class="live-dot"></span><span class="lp">—</span><span class="lc">—</span></div>
           <div class="entry-arrow">→</div>
         </div>
       </a>
@@ -259,12 +273,41 @@
     }
   }
 
+  const FINNHUB_KEY = 'd7lslk1r01qk7lvu94pgd7lslk1r01qk7lvu94q0';
+
+  async function fetchLivePrice(ticker) {
+    try {
+      const res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${FINNHUB_KEY}`);
+      const d = await res.json();
+      if (!d.c) return;
+      const price = d.c;
+      const prev = d.pc;
+      const el = document.getElementById('live-' + ticker);
+      if (!el) return;
+      const chg = prev ? ((price - prev) / prev * 100) : null;
+      const sign = chg >= 0 ? '+' : '';
+      const dir = chg >= 0 ? 'up' : 'dn';
+      el.innerHTML = `<span class="live-dot"></span><span class="lp">$${price.toFixed(2)}</span>${chg !== null ? `<span class="lc ${dir}">${sign}${chg.toFixed(2)}%</span>` : ''}`;
+    } catch(e) {}
+  }
+
+  async function fetchAllPrices() {
+    // Only fetch for OTC-listed or exchange-listed tickers Finnhub supports
+    // TRLEF is OTC and may not be covered — skip gracefully
+    const supported = allReports.filter(r => r.exchange !== 'OTCQB' && r.exchange !== 'OTC');
+    for (const r of supported) {
+      await fetchLivePrice(r.ticker);
+    }
+  }
+
   async function loadReports() {
     try {
       const res = await fetch('reports.json?v=' + Date.now());
       allReports = await res.json();
       updateStats();
       renderList();
+      fetchAllPrices();
+      setInterval(fetchAllPrices, 60000);
     } catch(e) {
       document.getElementById('report-list').innerHTML =
         '<div class="loading-state">Could not load reports.</div>';
@@ -278,6 +321,7 @@
       btn.classList.add('active');
       activeFilter = btn.dataset.filter;
       renderList();
+      fetchAllPrices();
     });
   });
 
