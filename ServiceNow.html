@@ -1,8 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="light" />
 <title>NOW · Hidden Leaf Equity Research</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,32 +13,32 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --ink: #1a1a18;
-    --ink2: #4a4a46;
-    --ink3: #8a8a84;
-    --paper: #f8f6f2;
-    --paper2: #f0ede8;
-    --rule: #dedad4;
-    --rule2: #ccc9c2;
-    --green: #1a6e3c;
-    --green-bg: #eaf4ee;
-    --red: #b83c1e;
-    --red-bg: #fdf0ec;
-    --amber: #8a5e00;
-    --amber-bg: #fdf6e8;
-    --accent: #1a4a7a;
+    --ink: #111110;
+    --ink2: #2e2e2c;
+    --ink3: #66665e;
+    --paper: #ffffff;
+    --paper2: #f4f2ee;
+    --rule: #e0dcd6;
+    --rule2: #c8c4bc;
+    --green: #145c30;
+    --green-bg: #e4f2ea;
+    --red: #a0321a;
+    --red-bg: #fceae6;
+    --amber: #7a5200;
+    --amber-bg: #fdf3e0;
+    --accent: #163d6e;
     --mono: 'IBM Plex Mono', monospace;
     --serif: 'IBM Plex Serif', serif;
     --sans: 'IBM Plex Sans', sans-serif;
   }
 
-  html { font-size: 15px; scroll-behavior: smooth; }
+  html { font-size: 16px; scroll-behavior: smooth; color-scheme: light only; }
   body {
-    background: var(--paper);
-    color: var(--ink);
+    background: #ffffff !important;
+    color: #111110 !important;
     font-family: var(--sans);
     font-weight: 400;
-    line-height: 1.6;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -80,8 +82,8 @@
   }
   .masthead h1 em { font-style: italic; color: var(--accent); }
   .masthead-sub {
-    font-family: var(--serif); font-size: 1rem;
-    font-weight: 300; color: var(--ink2);
+    font-family: var(--serif); font-size: 1.05rem;
+    font-weight: 400; color: var(--ink2);
     max-width: 640px; line-height: 1.75;
     margin-bottom: 1.75rem;
   }
@@ -115,7 +117,7 @@
     border-bottom: 1px solid var(--rule);
   }
   .overview p {
-    font-family: var(--serif); font-size: 1rem;
+    font-family: var(--serif); font-size: 1.05rem;
     line-height: 1.8; color: var(--ink2);
     max-width: 72ch; margin-bottom: 0.9rem;
   }
@@ -140,7 +142,7 @@
   }
   .section h2 em { font-style: italic; color: var(--accent); }
   .section p {
-    font-family: var(--serif); font-size: 1rem;
+    font-family: var(--serif); font-size: 1.05rem;
     line-height: 1.8; color: var(--ink2);
     max-width: 72ch; margin-bottom: 0.9rem;
   }
@@ -166,8 +168,8 @@
     margin-bottom: 0.65rem; color: var(--ink);
   }
   .gate p {
-    font-family: var(--sans); font-size: 0.9rem;
-    line-height: 1.65; color: var(--ink2);
+    font-family: var(--sans); font-size: 0.95rem;
+    line-height: 1.7; color: var(--ink2);
     max-width: none; margin-bottom: 0;
   }
   .gate-split {
@@ -183,8 +185,8 @@
   .gate-split-label.pass { color: var(--green); }
   .gate-split-label.fail { color: var(--red); }
   .gate-split p {
-    font-family: var(--sans); font-size: 0.85rem;
-    line-height: 1.55; color: var(--ink2); margin: 0;
+    font-family: var(--sans); font-size: 0.92rem;
+    line-height: 1.6; color: var(--ink2); margin: 0;
   }
 
   .scenario-table {
@@ -203,8 +205,8 @@
   .scenario-table td {
     padding: 0.65rem 0.85rem;
     border-bottom: 1px solid var(--rule);
-    vertical-align: top; line-height: 1.5;
-    color: var(--ink2);
+    vertical-align: top; line-height: 1.55;
+    color: var(--ink2); font-size: 0.88rem;
   }
   .scenario-table tr:last-child td { border-bottom: none; }
   .scenario-table tr:hover td { background: var(--paper2); }
@@ -229,20 +231,20 @@
   }
   .verdict h3 {
     font-family: var(--serif); font-size: 1.4rem;
-    font-weight: 300; line-height: 1.3;
-    margin-bottom: 1rem; color: #e8e4dc;
+    font-weight: 400; line-height: 1.3;
+    margin-bottom: 1rem; color: #f0ede8;
   }
   .verdict p {
-    font-family: var(--sans); font-size: 0.92rem;
-    line-height: 1.75; color: #9a9690;
+    font-family: var(--sans); font-size: 0.95rem;
+    line-height: 1.75; color: #c8c4bc;
     max-width: 66ch; margin-bottom: 0.9rem;
   }
-  .verdict p strong { color: #e8e4dc; }
+  .verdict p strong { color: #f0ede8; }
   .checklist { list-style: none; margin-top: 1.25rem; }
   .checklist li {
     display: flex; gap: 1rem; align-items: baseline;
-    font-family: var(--sans); font-size: 0.88rem;
-    color: #9a9690; line-height: 1.55;
+    font-family: var(--sans); font-size: 0.92rem;
+    color: #c8c4bc; line-height: 1.6;
     padding: 0.5rem 0; border-bottom: 1px solid #2a2a26;
   }
   .checklist li:last-child { border-bottom: none; }
@@ -262,9 +264,12 @@
   @media (max-width: 600px) {
     .gate-split { grid-template-columns: 1fr; }
     .stats-row { flex-direction: column; }
-    .stat { border-right: none; border-bottom: 1px solid var(--rule2); }
+    .stat { border-right: none; border-bottom: 1px solid var(--rule2); min-width: unset; }
     .stat:last-child { border-bottom: none; }
-    .masthead, .content { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .masthead, .content { padding-left: 1rem; padding-right: 1rem; }
+    .masthead { padding-top: 2rem; }
+    .scenario-table { font-size: 0.8rem; }
+    .scenario-table th, .scenario-table td { padding: 0.5rem 0.6rem; }
   }
 </style>
 </head>
