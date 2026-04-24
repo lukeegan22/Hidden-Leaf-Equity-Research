@@ -1,0 +1,50 @@
+[
+  {
+    "ticker": "HIMS",
+    "company": "Hims & Hers Health, Inc.",
+    "exchange": "NYSE",
+    "file": "hims.html",
+    "date": "Apr 23 2026",
+    "author": "Luke",
+    "category": "dip-buy",
+    "capSize": "Mid Cap",
+    "price": "~$31.00",
+    "change": "-70% from high",
+    "changeDir": "down",
+    "headline": "Two calls. Two windows. One catalyst-driven bet on a misread recovery.",
+    "summary": "Down ~70% from its high on GLP-1 regulatory fears that are already resolving. Novo lawsuit settled, distribution deal live, $1.15B international acquisition closing in weeks. Two short-term call options — May 1 and June 7 — positioned ahead of Q1 earnings on May 11.",
+    "badge": "▼ Dip Buy"
+  },
+  {
+    "ticker": "NOW",
+    "company": "ServiceNow, Inc.",
+    "exchange": "NYSE",
+    "file": "now.html",
+    "date": "Apr 23 2026",
+    "author": "Luke",
+    "category": "dip-buy",
+    "capSize": "Large Cap",
+    "price": "~$85.00",
+    "change": "-45% YTD",
+    "changeDir": "down",
+    "headline": "The SaaS selloff has created a potential entry point — but four conditions must hold.",
+    "summary": "Down 45% YTD despite beating Q1 estimates and raising guidance. The market is pricing in structural AI disruption that may not materialise on the relevant timeframe. At 23x forward earnings on a 20%+ growth, 35% FCF margin business, the valuation math looks asymmetric for a patient buyer.",
+    "badge": "▼ Dip Buy"
+  },
+  {
+    "ticker": "TRLEF",
+    "company": "Trillion Energy International Inc.",
+    "exchange": "OTCQB",
+    "file": "trlef.html",
+    "date": "Apr 23 2026",
+    "author": "Luke",
+    "category": "speculative",
+    "capSize": "Micro Cap",
+    "price": "~$0.030",
+    "change": "-79% 1Y",
+    "changeDir": "down",
+    "headline": "The bull case requires four gates to clear — in sequence.",
+    "summary": "Vancouver-based micro-cap oil explorer betting everything on the M47 Block in SE Turkey's Cudi-Gabar province. At ~C$6M market cap the stock prices in near-zero success. A successful discovery could justify C$50–200M+. The four gates define the path between those outcomes.",
+    "badge": "◆ Speculative"
+  }
+]
