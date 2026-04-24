@@ -261,6 +261,12 @@
     letter-spacing: 0.02em;
   }
 
+  .live-dot { display: inline-block; width: 6px; height: 6px; background: #5aaa78; border-radius: 50%; animation: pulse 2s infinite; margin-right: 0.35rem; vertical-align: middle; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.2} }
+  .stat-live { font-family: var(--mono); font-size: 0.75rem; font-weight: 600; color: var(--ink); }
+  .stat-live-chg { font-family: var(--mono); font-size: 0.65rem; margin-left: 0.35rem; }
+  .stat-live-chg.up { color: var(--green); } .stat-live-chg.dn { color: var(--red); }
+
   @media (max-width: 600px) {
     .gate-split { grid-template-columns: 1fr; }
     .stats-row { flex-direction: column; }
@@ -291,12 +297,13 @@
   <h1>The SaaS selloff has created a <em>potential entry point</em> — but four conditions must hold.</h1>
   <p class="masthead-sub">ServiceNow is down 45% year to date and 60% from its 52-week high. This morning's 18% post-earnings drop came despite a beat-and-raise quarter. The question is whether the market is pricing in a structural threat that doesn't exist — or one that does.</p>
   <div class="stats-row">
-    <div class="stat"><div class="stat-l">Price (NOW)</div><div class="stat-v warn">~$85 USD</div></div>
+    <div class="stat"><div class="stat-l">Price at Entry</div><div class="stat-v warn">~$85 USD</div></div>
     <div class="stat"><div class="stat-l">52-Week High</div><div class="stat-v">$211.48</div></div>
     <div class="stat"><div class="stat-l">YTD Decline</div><div class="stat-v warn">−45%</div></div>
     <div class="stat"><div class="stat-l">FY25 Revenue</div><div class="stat-v good">$13.28B (+21%)</div></div>
     <div class="stat"><div class="stat-l">FY26 Sub Rev Guide</div><div class="stat-v good">$15.74–15.78B</div></div>
     <div class="stat"><div class="stat-l">Forward P/E</div><div class="stat-v amber">~23x</div></div>
+    <div class="stat"><div class="stat-l"><span class="live-dot"></span>Live Price</div><div class="stat-v"><span class="stat-live" id="now-price">—</span><span class="stat-live-chg" id="now-chg"></span></div></div>
   </div>
 </div>
 
@@ -465,5 +472,26 @@
   </div>
 
 </div>
+<script>
+  async function fetchNowPrice() {
+    try {
+      const res = await fetch('https://finnhub.io/api/v1/quote?symbol=NOW&token=d7lslk1r01qk7lvu94pgd7lslk1r01qk7lvu94q0');
+      const d = await res.json();
+      if (!d.c) return;
+      const price = d.c;
+      const prev = d.pc;
+      document.getElementById('now-price').textContent = '$' + price.toFixed(2);
+      if (prev) {
+        const chg = ((price - prev) / prev * 100);
+        const sign = chg >= 0 ? '+' : '';
+        const el = document.getElementById('now-chg');
+        el.textContent = sign + chg.toFixed(2) + '%';
+        el.className = 'stat-live-chg ' + (chg >= 0 ? 'up' : 'dn');
+      }
+    } catch(e) {}
+  }
+  fetchNowPrice();
+  setInterval(fetchNowPrice, 60000);
+</script>
 </body>
 </html>
