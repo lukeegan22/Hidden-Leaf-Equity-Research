@@ -29,8 +29,6 @@
     --amber-bg: #fdf3e0;
     --blue: #163d6e;
     --blue-bg: #e8eef8;
-    --purple: #4a2080;
-    --purple-bg: #f0eaf8;
     --accent: #163d6e;
     --mono: 'IBM Plex Mono', monospace;
     --serif: 'IBM Plex Serif', serif;
@@ -38,13 +36,7 @@
   }
 
   html { font-size: 16px; color-scheme: light only; }
-  body {
-    background: #ffffff !important;
-    color: var(--ink) !important;
-    font-family: var(--sans);
-    -webkit-font-smoothing: antialiased;
-    min-height: 100vh;
-  }
+  body { background: #ffffff !important; color: var(--ink) !important; font-family: var(--sans); -webkit-font-smoothing: antialiased; min-height: 100vh; }
 
   /* ── NAV ── */
   nav {
@@ -52,8 +44,7 @@
     display: flex; align-items: center;
     padding: 0 2rem; height: 44px;
     font-family: var(--mono); font-size: 0.65rem;
-    letter-spacing: 0.07em;
-    justify-content: space-between;
+    letter-spacing: 0.07em; justify-content: space-between;
     position: sticky; top: 0; z-index: 100;
   }
   nav .brand { color: #fff; font-weight: 600; letter-spacing: 0.12em; font-size: 0.7rem; }
@@ -61,216 +52,85 @@
   nav .nav-right { color: #555; font-size: 0.6rem; letter-spacing: 0.08em; }
 
   /* ── HERO ── */
-  .hero {
-    border-bottom: 1px solid var(--rule2);
-    padding: 4rem 2rem 3.5rem;
-    max-width: 960px; margin: 0 auto;
-  }
-  .hero-label {
-    font-family: var(--mono); font-size: 0.62rem;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--ink3); margin-bottom: 1rem;
-    display: flex; align-items: center; gap: 0.75rem;
-  }
-  .hero-label::after {
-    content: ''; flex: 1; max-width: 48px;
-    height: 1px; background: var(--rule2);
-  }
-  .hero h1 {
-    font-family: var(--serif);
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    font-weight: 300; line-height: 1.15;
-    letter-spacing: -0.025em;
-    margin-bottom: 1.5rem; max-width: 800px;
-  }
+  .hero { border-bottom: 1px solid var(--rule2); padding: 4rem 2rem 3.5rem; max-width: 960px; margin: 0 auto; }
+  .hero-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink3); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+  .hero-label::after { content: ''; flex: 1; max-width: 48px; height: 1px; background: var(--rule2); }
+  .hero h1 { font-family: var(--serif); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 300; line-height: 1.15; letter-spacing: -0.025em; margin-bottom: 1.5rem; max-width: 800px; }
   .hero h1 em { font-style: italic; color: var(--accent); }
-  .hero-about {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--rule);
-    margin-top: 0.5rem;
-  }
-  .hero-about-block p {
-    font-family: var(--serif); font-size: 0.98rem;
-    line-height: 1.75; color: var(--ink2); font-weight: 400;
-  }
-  .hero-about-block .about-label {
-    font-family: var(--mono); font-size: 0.58rem;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--ink3); margin-bottom: 0.5rem;
-  }
-  .disclaimer-block {
-    grid-column: 1 / -1;
-    background: var(--paper2);
-    border-left: 3px solid var(--rule2);
-    padding: 0.85rem 1.1rem;
-    font-family: var(--mono); font-size: 0.62rem;
-    line-height: 1.65; color: var(--ink3);
-    letter-spacing: 0.02em;
-  }
+  .hero-about { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 3rem; padding-top: 2rem; border-top: 1px solid var(--rule); margin-top: 0.5rem; }
+  .about-label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); margin-bottom: 0.5rem; }
+  .hero-about p { font-family: var(--serif); font-size: 0.98rem; line-height: 1.75; color: var(--ink2); font-weight: 400; }
+  .disclaimer-block { grid-column: 1 / -1; background: var(--paper2); border-left: 3px solid var(--rule2); padding: 0.85rem 1.1rem; font-family: var(--mono); font-size: 0.62rem; line-height: 1.65; color: var(--ink3); letter-spacing: 0.02em; }
 
-  /* ── MAIN CONTENT ── */
-  .main {
-    max-width: 960px; margin: 0 auto;
-    padding: 3rem 2rem 5rem;
-  }
+  /* ── MAIN ── */
+  .main { max-width: 960px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+  /* ── STATS BAR ── */
+  .stats-bar { display: flex; flex-wrap: wrap; border: 1px solid var(--rule2); margin-bottom: 2.5rem; }
+  .stat-cell { padding: 0.65rem 1.25rem; border-right: 1px solid var(--rule2); flex: 1; min-width: 100px; }
+  .stat-cell:last-child { border-right: none; }
+  .stat-l { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); margin-bottom: 0.2rem; }
+  .stat-v { font-family: var(--mono); font-size: 0.88rem; color: var(--ink); font-weight: 500; }
 
   /* ── FILTERS ── */
-  .filter-bar {
-    display: flex; align-items: center;
-    gap: 0; margin-bottom: 2.5rem;
-    border-bottom: 1px solid var(--rule2);
-    flex-wrap: wrap;
-  }
-  .filter-bar .filter-label {
-    font-family: var(--mono); font-size: 0.58rem;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--ink3); padding-right: 1.25rem;
-    margin-right: 0.5rem;
-    border-right: 1px solid var(--rule);
-    white-space: nowrap;
-    padding-bottom: 0.75rem;
-  }
-  .filter-btn {
-    font-family: var(--mono); font-size: 0.62rem;
-    letter-spacing: 0.07em; text-transform: uppercase;
-    background: none; border: none; cursor: pointer;
-    color: var(--ink3); padding: 0.75rem 1rem;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
-    transition: color 0.12s, border-color 0.12s;
-    white-space: nowrap;
-  }
+  .filter-bar { display: flex; align-items: center; gap: 0; margin-bottom: 2rem; border-bottom: 1px solid var(--rule2); flex-wrap: wrap; }
+  .filter-label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); padding-right: 1.25rem; margin-right: 0.5rem; border-right: 1px solid var(--rule); white-space: nowrap; padding-bottom: 0.75rem; }
+  .filter-btn { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.07em; text-transform: uppercase; background: none; border: none; cursor: pointer; color: var(--ink3); padding: 0.75rem 1rem; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.12s, border-color 0.12s; white-space: nowrap; }
   .filter-btn:hover { color: var(--ink); }
   .filter-btn.active { color: var(--ink); border-bottom-color: var(--ink); }
 
   /* ── REPORT COUNT ── */
-  .report-count {
-    font-family: var(--mono); font-size: 0.6rem;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--ink3); margin-bottom: 1.25rem;
-  }
+  .report-count { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); margin-bottom: 1.25rem; }
 
   /* ── REPORT LIST ── */
   .report-list { display: flex; flex-direction: column; }
 
   .report-entry {
-    display: grid;
-    grid-template-columns: 100px 1fr auto;
-    gap: 0 2rem;
-    padding: 1.5rem 0;
+    display: grid; grid-template-columns: 100px 1fr auto;
+    gap: 0 2rem; padding: 1.5rem 0.5rem;
     border-bottom: 1px solid var(--rule);
-    text-decoration: none;
-    color: inherit;
-    transition: background 0.1s;
+    text-decoration: none; color: inherit;
+    transition: background 0.1s, padding 0.1s;
     align-items: start;
   }
   .report-entry:first-child { border-top: 1px solid var(--rule); }
-  .report-entry:hover { background: var(--paper2); margin: 0 -1rem; padding-left: 1rem; padding-right: 1rem; }
+  .report-entry:hover { background: var(--paper2); padding-left: 1rem; padding-right: 1rem; margin: 0 -0.5rem; }
 
   .entry-left { padding-top: 0.15rem; }
-  .entry-ticker {
-    font-family: var(--mono); font-size: 1.1rem;
-    font-weight: 600; letter-spacing: 0.06em;
-    color: var(--ink); margin-bottom: 0.3rem;
-  }
-  .entry-date {
-    font-family: var(--mono); font-size: 0.58rem;
-    color: var(--ink3); letter-spacing: 0.07em;
-    text-transform: uppercase;
-  }
+  .entry-ticker { font-family: var(--mono); font-size: 1.1rem; font-weight: 600; letter-spacing: 0.06em; color: var(--ink); margin-bottom: 0.3rem; }
+  .entry-date { font-family: var(--mono); font-size: 0.58rem; color: var(--ink3); letter-spacing: 0.07em; text-transform: uppercase; }
 
-  .entry-body { }
-  .entry-company {
-    font-family: var(--sans); font-size: 0.78rem;
-    color: var(--ink3); letter-spacing: 0.03em;
-    margin-bottom: 0.3rem; text-transform: uppercase;
-    font-weight: 500;
-  }
-  .entry-headline {
-    font-family: var(--serif); font-size: 1.08rem;
-    font-weight: 400; line-height: 1.35;
-    color: var(--ink); margin-bottom: 0.5rem;
-  }
-  .entry-summary {
-    font-family: var(--sans); font-size: 0.88rem;
-    line-height: 1.6; color: var(--ink2);
-    max-width: 60ch;
-  }
-  .entry-tags {
-    display: flex; flex-wrap: wrap; gap: 0.4rem;
-    margin-top: 0.75rem;
-  }
-  .tag {
-    font-family: var(--mono); font-size: 0.57rem;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    padding: 0.2rem 0.6rem;
-  }
+  .entry-company { font-family: var(--sans); font-size: 0.75rem; color: var(--ink3); letter-spacing: 0.03em; margin-bottom: 0.3rem; text-transform: uppercase; font-weight: 500; }
+  .entry-headline { font-family: var(--serif); font-size: 1.05rem; font-weight: 400; line-height: 1.35; color: var(--ink); margin-bottom: 0.5rem; }
+  .entry-summary { font-family: var(--sans); font-size: 0.88rem; line-height: 1.6; color: var(--ink2); max-width: 60ch; }
+
+  .entry-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
+  .tag { font-family: var(--mono); font-size: 0.57rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; }
   .tag.dip-buy    { background: var(--amber-bg); color: var(--amber); }
   .tag.speculative{ background: var(--red-bg);   color: var(--red); }
   .tag.growth     { background: var(--green-bg); color: var(--green); }
-  .tag.short      { background: #f8e8e8;         color: #8a1a1a; }
+  .tag.short      { background: #f8e8e8; color: #8a1a1a; }
   .tag.macro      { background: var(--blue-bg);  color: var(--blue); }
-  .tag.author     { background: var(--paper2);   color: var(--ink3); border: 1px solid var(--rule2); }
-  .tag.large-cap  { background: var(--paper3);   color: var(--ink2); border: 1px solid var(--rule2); }
-  .tag.micro-cap  { background: var(--paper3);   color: var(--ink2); border: 1px solid var(--rule2); }
+  .tag.author     { background: var(--paper2); color: var(--ink3); border: 1px solid var(--rule2); }
+  .tag.cap        { background: var(--paper3); color: var(--ink2); border: 1px solid var(--rule2); }
 
-  .entry-right {
-    text-align: right; padding-top: 0.15rem;
-    white-space: nowrap;
-  }
-  .entry-price {
-    font-family: var(--mono); font-size: 0.88rem;
-    font-weight: 600; color: var(--ink);
-    margin-bottom: 0.25rem;
-  }
-  .entry-chg {
-    font-family: var(--mono); font-size: 0.65rem;
-    letter-spacing: 0.05em;
-  }
+  .entry-right { text-align: right; padding-top: 0.15rem; white-space: nowrap; }
+  .entry-price { font-family: var(--mono); font-size: 0.88rem; font-weight: 600; color: var(--ink); margin-bottom: 0.25rem; }
+  .entry-chg { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.05em; }
   .entry-chg.down { color: var(--red); }
   .entry-chg.up   { color: var(--green); }
-  .entry-arrow {
-    font-family: var(--mono); font-size: 0.75rem;
-    color: var(--ink3); margin-top: 0.5rem;
-    transition: transform 0.12s;
-  }
+  .entry-arrow { font-family: var(--mono); font-size: 0.75rem; color: var(--ink3); margin-top: 0.5rem; transition: transform 0.12s; }
   .report-entry:hover .entry-arrow { color: var(--accent); transform: translateX(3px); }
 
-  /* hidden */
   .report-entry.hidden { display: none; }
 
-  /* empty state */
-  .empty-state {
+  /* ── LOADING / EMPTY ── */
+  .loading-state, .empty-state {
     padding: 3rem 0; text-align: center;
     font-family: var(--mono); font-size: 0.7rem;
-    letter-spacing: 0.1em; color: var(--ink3);
-    text-transform: uppercase; display: none;
+    letter-spacing: 0.1em; color: var(--ink3); text-transform: uppercase;
   }
-
-  /* ── STATS BAR ── */
-  .stats-bar {
-    display: flex; flex-wrap: wrap;
-    border: 1px solid var(--rule2);
-    margin-bottom: 2.5rem;
-  }
-  .stat-cell {
-    padding: 0.65rem 1.25rem;
-    border-right: 1px solid var(--rule2);
-    flex: 1; min-width: 120px;
-  }
-  .stat-cell:last-child { border-right: none; }
-  .stat-l {
-    font-family: var(--mono); font-size: 0.55rem;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--ink3); margin-bottom: 0.2rem;
-  }
-  .stat-v {
-    font-family: var(--mono); font-size: 0.88rem;
-    color: var(--ink); font-weight: 500;
-  }
+  .empty-state { display: none; }
 
   @media (max-width: 680px) {
     .hero { padding: 2.5rem 1.25rem 2rem; }
@@ -279,7 +139,6 @@
     .report-entry { grid-template-columns: 72px 1fr; }
     .entry-right { display: none; }
     .stats-bar { display: none; }
-    .filter-bar { gap: 0; }
     .filter-btn { padding: 0.65rem 0.65rem; font-size: 0.58rem; }
   }
 </style>
@@ -291,17 +150,15 @@
   <span class="nav-right">PHILADELPHIA · EST. 2026</span>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-label">Independent Equity Research</div>
   <h1>We invest our own capital.<br><em>This is how we think about it.</em></h1>
-
   <div class="hero-about">
-    <div class="hero-about-block">
+    <div>
       <div class="about-label">Who we are</div>
       <p>Hidden Leaf is a small research group based out of the Philadelphia suburbs. We invest individually and share information through this journal. Our bet sizing, market timing, and trade mechanisms may differ internally.</p>
     </div>
-    <div class="hero-about-block">
+    <div>
       <div class="about-label">What this is</div>
       <p>A running log of equity theses — dip buys, speculative bets, growth positions, and macro views. We do the work, write it up, and publish it here. Use it however you want.</p>
     </div>
@@ -311,18 +168,15 @@
   </div>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
-  <!-- STATS -->
   <div class="stats-bar">
-    <div class="stat-cell"><div class="stat-l">Total Reports</div><div class="stat-v" id="total-count">2</div></div>
+    <div class="stat-cell"><div class="stat-l">Total Reports</div><div class="stat-v" id="total-count">—</div></div>
     <div class="stat-cell"><div class="stat-l">Authors</div><div class="stat-v">Luke, Leighton</div></div>
-    <div class="stat-cell"><div class="stat-l">Latest</div><div class="stat-v">Apr 23 2026</div></div>
-    <div class="stat-cell"><div class="stat-l">Coverage</div><div class="stat-v">Large Cap · Micro Cap</div></div>
+    <div class="stat-cell"><div class="stat-l">Latest</div><div class="stat-v" id="latest-date">—</div></div>
+    <div class="stat-cell"><div class="stat-l">Categories</div><div class="stat-v">Dip Buy · Speculative · Growth</div></div>
   </div>
 
-  <!-- FILTERS -->
   <div class="filter-bar">
     <span class="filter-label">Filter</span>
     <button class="filter-btn active" data-filter="all">All</button>
@@ -333,84 +187,101 @@
     <button class="filter-btn" data-filter="macro">Macro</button>
   </div>
 
-  <div class="report-count" id="report-count">SHOWING 2 REPORTS</div>
-
-  <!-- REPORT LIST -->
+  <div class="report-count" id="report-count"></div>
   <div class="report-list" id="report-list">
-
-    <!-- NOW -->
-    <a class="report-entry" href="now.html" data-category="dip-buy">
-      <div class="entry-left">
-        <div class="entry-ticker">NOW</div>
-        <div class="entry-date">Apr 23<br>2026</div>
-      </div>
-      <div class="entry-body">
-        <div class="entry-company">ServiceNow, Inc. · NYSE · Large Cap</div>
-        <div class="entry-headline">The SaaS selloff has created a potential entry point — but four conditions must hold.</div>
-        <div class="entry-summary">Down 45% YTD despite beating Q1 estimates and raising guidance. The market is pricing in structural AI disruption that may not materialise on the relevant timeframe. At 23x forward earnings on a 20%+ growth, 35% FCF margin business, the valuation math looks asymmetric for a patient buyer.</div>
-        <div class="entry-tags">
-          <span class="tag dip-buy">▼ Dip Buy</span>
-          <span class="tag large-cap">Large Cap</span>
-          <span class="tag author">Luke</span>
-        </div>
-      </div>
-      <div class="entry-right">
-        <div class="entry-price">~$85.00</div>
-        <div class="entry-chg down">−45% YTD</div>
-        <div class="entry-arrow">→</div>
-      </div>
-    </a>
-
-    <!-- TRLEF -->
-    <a class="report-entry" href="trlef.html" data-category="speculative">
-      <div class="entry-left">
-        <div class="entry-ticker">TRLEF</div>
-        <div class="entry-date">Apr 23<br>2026</div>
-      </div>
-      <div class="entry-body">
-        <div class="entry-company">Trillion Energy International · OTCQB · Micro Cap</div>
-        <div class="entry-headline">The bull case requires four gates to clear — in sequence.</div>
-        <div class="entry-summary">Vancouver-based micro-cap oil explorer betting everything on the M47 Block in SE Turkey's Cudi-Gabar province. At ~C$6M market cap the stock prices in near-zero success. A successful discovery could justify C$50–200M+. The four gates define the path between those outcomes.</div>
-        <div class="entry-tags">
-          <span class="tag speculative">◆ Speculative</span>
-          <span class="tag micro-cap">Micro Cap</span>
-          <span class="tag author">Luke</span>
-        </div>
-      </div>
-      <div class="entry-right">
-        <div class="entry-price">~$0.030</div>
-        <div class="entry-chg down">−79% 1Y</div>
-        <div class="entry-arrow">→</div>
-      </div>
-    </a>
-
+    <div class="loading-state">Loading reports...</div>
   </div>
-
   <div class="empty-state" id="empty-state">No reports in this category yet.</div>
 
 </div>
 
 <script>
-  const btns = document.querySelectorAll('.filter-btn');
-  const entries = document.querySelectorAll('.report-entry');
-  const countEl = document.getElementById('report-count');
-  const emptyEl = document.getElementById('empty-state');
+  let allReports = [];
+  let activeFilter = 'all';
 
-  btns.forEach(btn => {
+  // Tag color class lookup
+  const categoryClass = {
+    'dip-buy': 'dip-buy',
+    'speculative': 'speculative',
+    'growth': 'growth',
+    'short': 'short',
+    'macro': 'macro'
+  };
+
+  function buildEntry(r) {
+    const catClass = categoryClass[r.category] || 'author';
+    return `
+      <a class="report-entry" href="${r.file}" data-category="${r.category}">
+        <div class="entry-left">
+          <div class="entry-ticker">${r.ticker}</div>
+          <div class="entry-date">${r.date.replace(' ', '<br>')}</div>
+        </div>
+        <div class="entry-body">
+          <div class="entry-company">${r.company} · ${r.exchange} · ${r.capSize}</div>
+          <div class="entry-headline">${r.headline}</div>
+          <div class="entry-summary">${r.summary}</div>
+          <div class="entry-tags">
+            <span class="tag ${catClass}">${r.badge}</span>
+            <span class="tag cap">${r.capSize}</span>
+            <span class="tag author">${r.author}</span>
+          </div>
+        </div>
+        <div class="entry-right">
+          <div class="entry-price">${r.price}</div>
+          <div class="entry-chg ${r.changeDir}">${r.change}</div>
+          <div class="entry-arrow">→</div>
+        </div>
+      </a>
+    `;
+  }
+
+  function renderList() {
+    const list = document.getElementById('report-list');
+    const countEl = document.getElementById('report-count');
+    const emptyEl = document.getElementById('empty-state');
+
+    const filtered = activeFilter === 'all'
+      ? allReports
+      : allReports.filter(r => r.category === activeFilter);
+
+    list.innerHTML = filtered.length
+      ? filtered.map(buildEntry).join('')
+      : '';
+
+    countEl.textContent = `SHOWING ${filtered.length} REPORT${filtered.length !== 1 ? 'S' : ''}`;
+    emptyEl.style.display = filtered.length === 0 ? 'block' : 'none';
+  }
+
+  function updateStats() {
+    document.getElementById('total-count').textContent = allReports.length;
+    if (allReports.length) {
+      document.getElementById('latest-date').textContent = allReports[0].date;
+    }
+  }
+
+  async function loadReports() {
+    try {
+      const res = await fetch('reports.json?v=' + Date.now());
+      allReports = await res.json();
+      updateStats();
+      renderList();
+    } catch(e) {
+      document.getElementById('report-list').innerHTML =
+        '<div class="loading-state">Could not load reports.</div>';
+    }
+  }
+
+  // Filters
+  document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      btns.forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const f = btn.dataset.filter;
-      let visible = 0;
-      entries.forEach(e => {
-        const match = f === 'all' || e.dataset.category === f;
-        e.classList.toggle('hidden', !match);
-        if (match) visible++;
-      });
-      countEl.textContent = `SHOWING ${visible} REPORT${visible !== 1 ? 'S' : ''}`;
-      emptyEl.style.display = visible === 0 ? 'block' : 'none';
+      activeFilter = btn.dataset.filter;
+      renderList();
     });
   });
+
+  loadReports();
 </script>
 
 </body>
