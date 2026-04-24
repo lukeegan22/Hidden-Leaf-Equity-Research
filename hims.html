@@ -353,12 +353,14 @@
 
   async function fetchPrice() {
     try {
-      const res = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/HIMS?interval=1m&range=1d');
-      const d = await res.json();
-      const meta = d?.chart?.result?.[0]?.meta;
-      if (!meta) return;
-      const price = meta.regularMarketPrice;
-      const prev = meta.previousClose || meta.chartPreviousClose;
+      const [quoteRes, prevRes] = await Promise.all([
+        fetch('https://finnhub.io/api/v1/quote?symbol=HIMS&token=d7lslk1r01qk7lvu94pgd7lslk1r01qk7lvu94q0'),
+        fetch('https://finnhub.io/api/v1/quote?symbol=HIMS&token=d7lslk1r01qk7lvu94pgd7lslk1r01qk7lvu94q0')
+      ]);
+      const data = await quoteRes.json();
+      const price = data.c;  // current price
+      const prev = data.pc;  // previous close
+      if (!price) throw new Error('No price');
       document.getElementById('live-price').textContent = '$' + price.toFixed(2);
       if (prev) {
         const chg = ((price - prev) / prev * 100);
