@@ -1,0 +1,474 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TRLEF · Hidden Leaf Equity Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a18;
+    --ink2: #4a4a46;
+    --ink3: #8a8a84;
+    --paper: #f8f6f2;
+    --paper2: #f0ede8;
+    --rule: #dedad4;
+    --rule2: #ccc9c2;
+    --green: #1a6e3c;
+    --green-bg: #eaf4ee;
+    --red: #b83c1e;
+    --red-bg: #fdf0ec;
+    --amber: #8a5e00;
+    --amber-bg: #fdf6e8;
+    --accent: #1a4a7a;
+    --mono: 'IBM Plex Mono', monospace;
+    --serif: 'IBM Plex Serif', serif;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  html { font-size: 15px; scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--ink);
+    display: flex; align-items: center;
+    padding: 0 2rem; height: 40px;
+    font-family: var(--mono); font-size: 0.65rem;
+    letter-spacing: 0.07em; overflow-x: auto; white-space: nowrap;
+    gap: 0;
+  }
+  nav .brand { color: #fff; font-weight: 600; margin-right: 1.5rem; letter-spacing: 0.1em; }
+  nav .brand span { color: #5aaa78; }
+  nav a {
+    color: #888; text-decoration: none;
+    padding: 0 0.85rem; height: 40px;
+    display: inline-flex; align-items: center;
+    border-left: 1px solid #333;
+    transition: color 0.15s;
+  }
+  nav a:hover { color: #fff; }
+  nav a.home { border-left: none; border-right: 1px solid #333; }
+
+  /* MASTHEAD */
+  .masthead {
+    padding: 3rem 2rem 2.5rem;
+    border-bottom: 1px solid var(--rule2);
+    max-width: 860px; margin: 0 auto;
+  }
+  .masthead-eyebrow {
+    font-family: var(--mono); font-size: 0.62rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink3); margin-bottom: 1rem;
+  }
+  .masthead-eyebrow span { color: var(--accent); }
+  .masthead h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 300; line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem; max-width: 780px;
+  }
+  .masthead h1 em { font-style: italic; color: var(--accent); }
+  .masthead-sub {
+    font-family: var(--serif); font-size: 1rem;
+    font-weight: 300; color: var(--ink2);
+    max-width: 640px; line-height: 1.75;
+    margin-bottom: 1.75rem;
+  }
+  .stats-row {
+    display: flex; flex-wrap: wrap; gap: 0;
+    border: 1px solid var(--rule2);
+  }
+  .stat {
+    padding: 0.6rem 1.1rem;
+    border-right: 1px solid var(--rule2);
+    min-width: 130px;
+  }
+  .stat:last-child { border-right: none; }
+  .stat-l {
+    font-family: var(--mono); font-size: 0.57rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink3); margin-bottom: 0.2rem;
+  }
+  .stat-v {
+    font-family: var(--mono); font-size: 0.88rem;
+    color: var(--ink); font-weight: 500;
+  }
+  .stat-v.warn { color: var(--red); }
+  .stat-v.good { color: var(--green); }
+
+  /* CONTENT */
+  .content { max-width: 860px; margin: 0 auto; padding: 0 2rem 5rem; }
+
+  /* OVERVIEW */
+  .overview {
+    padding: 2.5rem 0 2rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .overview p {
+    font-family: var(--serif); font-size: 1rem;
+    line-height: 1.8; color: var(--ink2);
+    max-width: 72ch; margin-bottom: 0.9rem;
+  }
+  .overview p:last-child { margin-bottom: 0; }
+
+  /* SECTION */
+  .section {
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--rule);
+    margin-top: 2.5rem;
+  }
+  .section-label {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink3); margin-bottom: 0.4rem;
+  }
+  .section-label span { color: var(--accent); }
+  .section h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.3rem, 3vw, 1.75rem);
+    font-weight: 300; line-height: 1.25;
+    margin-bottom: 1rem; letter-spacing: -0.01em;
+  }
+  .section h2 em { font-style: italic; color: var(--accent); }
+  .section p {
+    font-family: var(--serif); font-size: 1rem;
+    line-height: 1.8; color: var(--ink2);
+    max-width: 72ch; margin-bottom: 0.9rem;
+  }
+
+  /* GATE CARD */
+  .gate {
+    background: var(--paper2);
+    border: 1px solid var(--rule2);
+    border-left: 3px solid var(--red);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .gate.amber { border-left-color: var(--amber); }
+  .gate.green { border-left-color: var(--green); }
+  .gate-tag {
+    font-family: var(--mono); font-size: 0.58rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink3); margin-bottom: 0.4rem;
+  }
+  .gate h3 {
+    font-family: var(--serif); font-size: 1.05rem;
+    font-weight: 600; line-height: 1.35;
+    margin-bottom: 0.65rem; color: var(--ink);
+  }
+  .gate p {
+    font-family: var(--sans); font-size: 0.9rem;
+    line-height: 1.65; color: var(--ink2);
+    max-width: none; margin-bottom: 0;
+  }
+  .gate-split {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1rem; margin-top: 1rem;
+    padding-top: 1rem; border-top: 1px solid var(--rule);
+  }
+  .gate-split-label {
+    font-family: var(--mono); font-size: 0.58rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+  .gate-split-label.pass { color: var(--green); }
+  .gate-split-label.fail { color: var(--red); }
+  .gate-split p {
+    font-family: var(--sans); font-size: 0.85rem;
+    line-height: 1.55; color: var(--ink2); margin: 0;
+  }
+
+  /* SCENARIO TABLE */
+  .scenario-table {
+    width: 100%; border-collapse: collapse;
+    margin: 1.5rem 0; font-family: var(--sans);
+    font-size: 0.85rem;
+  }
+  .scenario-table th {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink3); text-align: left;
+    padding: 0.5rem 0.85rem;
+    border-bottom: 1px solid var(--ink);
+    background: var(--paper2);
+  }
+  .scenario-table td {
+    padding: 0.65rem 0.85rem;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top; line-height: 1.5;
+    color: var(--ink2);
+  }
+  .scenario-table tr:last-child td { border-bottom: none; }
+  .scenario-table tr:hover td { background: var(--paper2); }
+  .tag {
+    display: inline-block;
+    font-family: var(--mono); font-size: 0.58rem;
+    letter-spacing: 0.07em; text-transform: uppercase;
+    padding: 0.15rem 0.5rem; margin-right: 0.2rem;
+  }
+  .tag.pass { background: var(--green-bg); color: var(--green); }
+  .tag.fail { background: var(--red-bg); color: var(--red); }
+  .tag.na { background: var(--paper2); color: var(--ink3); border: 1px solid var(--rule2); }
+
+  /* VERDICT */
+  .verdict {
+    background: var(--ink); color: #e8e4dc;
+    padding: 2rem 2.25rem; margin-top: 2.5rem;
+  }
+  .verdict-label {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: #5aaa78; margin-bottom: 0.5rem;
+  }
+  .verdict h3 {
+    font-family: var(--serif); font-size: 1.4rem;
+    font-weight: 300; line-height: 1.3;
+    margin-bottom: 1rem; color: #e8e4dc;
+  }
+  .verdict p {
+    font-family: var(--sans); font-size: 0.92rem;
+    line-height: 1.75; color: #9a9690;
+    max-width: 66ch; margin-bottom: 0.9rem;
+  }
+  .verdict p strong { color: #e8e4dc; }
+  .checklist { list-style: none; margin-top: 1.25rem; }
+  .checklist li {
+    display: flex; gap: 1rem; align-items: baseline;
+    font-family: var(--sans); font-size: 0.88rem;
+    color: #9a9690; line-height: 1.55;
+    padding: 0.5rem 0; border-bottom: 1px solid #2a2a26;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li .n {
+    font-family: var(--mono); font-size: 0.65rem;
+    color: #5aaa78; flex-shrink: 0; min-width: 16px;
+  }
+
+  /* DISCLAIMER */
+  .disclaimer {
+    margin-top: 3rem; padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono); font-size: 0.65rem;
+    line-height: 1.7; color: var(--ink3);
+    letter-spacing: 0.02em;
+  }
+
+  @media (max-width: 600px) {
+    .gate-split { grid-template-columns: 1fr; }
+    .stats-row { flex-direction: column; }
+    .stat { border-right: none; border-bottom: 1px solid var(--rule2); }
+    .stat:last-child { border-bottom: none; }
+    .masthead, .content { padding-left: 1.25rem; padding-right: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="brand">HIDDEN <span>LEAF</span></span>
+  <a href="#overview">TRLEF</a>
+  <a href="#gate1">Gate I · Capital</a>
+  <a href="#gate2">Gate II · Dilution</a>
+  <a href="#gate3">Gate III · Drill</a>
+  <a href="#gate4">Gate IV · Oil Price</a>
+  <a href="#verdict">Verdict</a>
+</nav>
+
+<div class="masthead">
+  <div class="masthead-eyebrow">TRLEF · OTCQB &nbsp;·&nbsp; <span>High-Risk Bull Case</span> &nbsp;·&nbsp; Luke &nbsp;·&nbsp; Apr 23 2026</div>
+  <h1>The bull case requires <em>four gates</em> to clear — in sequence.</h1>
+  <p class="masthead-sub">This is not a bear case. The geology, the operator, and the political de-risking are real. This is a structured account of what must go right, and what happens to the equity when any single gate fails.</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-l">Price (TRLEF)</div><div class="stat-v">~$0.030 USD</div></div>
+    <div class="stat"><div class="stat-l">Market Cap</div><div class="stat-v">~C$6M</div></div>
+    <div class="stat"><div class="stat-l">Shares Post-Rollback</div><div class="stat-v">41.6M</div></div>
+    <div class="stat"><div class="stat-l">2026 Tranche Required</div><div class="stat-v warn">US$9.5M</div></div>
+    <div class="stat"><div class="stat-l">Raise Announced</div><div class="stat-v warn">C$2.0M (~4%)</div></div>
+    <div class="stat"><div class="stat-l">Chapman Risked EV</div><div class="stat-v good">US$594M (North)</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- OVERVIEW -->
+  <div class="overview" id="overview">
+    <p>Trillion Energy International (TRLEF / TCF) is a Vancouver-based micro-cap oil and gas explorer operating exclusively in Türkiye. Its primary asset is a 49% working interest in the SASB offshore natural gas field in the Black Sea — a declining asset the company is actively trying to sell. The new thesis rests entirely on the M47 Block in SE Turkey's Cudi-Gabar province, where Trillion is earning a 29% working interest via a US$15M farm-in. The region sits adjacent to TPAO's Gabar Mountain complex, which has grown from 25,000 to 70,000+ bopd since 2023 following the PKK ceasefire. The first well (Çetinkaya-1) confirmed mobile 32.4° API oil in the Mardin Group carbonates before being halted by lost circulation at 2,455m. The planned sidetrack (C-1ST) targets the untested structural crest 75–100m higher — the commercial test the discovery needs.</p>
+    <p>At ~C$6M market cap, the stock prices in near-zero success probability. A successful outcome could justify C$50–200M+. The four gates below define the path between those outcomes.</p>
+  </div>
+
+  <!-- GATE I -->
+  <div class="section" id="gate1">
+    <div class="section-label"><span>Gate I</span> · The existential gate</div>
+    <h2>Capital: the 2026 tranche gets <em>funded</em></h2>
+    <p>The farm-in requires US$9.5M in 2026 and US$5.5M in 2027. The April 17 placement covers roughly 4% of that. The remaining US$9.1M must be sourced before the tranche deadline or Trillion forfeits its 29% working interest entirely. This gate is the prerequisite for everything else — without it, the Chapman valuation is an academic exercise.</p>
+    <div class="gate">
+      <div class="gate-tag">Gate I · Capital · What needs to happen</div>
+      <h3>A US$10M+ raise or strategic partnership closes the 2026 tranche in full at C$0.20 or higher post-consolidation.</h3>
+      <p>A strategic investor — a mid-cap Turkish or international E&P — is a cleaner outcome than a retail placement because it introduces a counterparty with operational credibility. The signal to watch is not the C$2M bridge raise already announced. It is the <strong>second raise</strong>: its size, price, and investor type are the most informative data points in the next 60 days.</p>
+      <div class="gate-split">
+        <div>
+          <div class="gate-split-label pass">✓ Gate clears</div>
+          <p>Farm-in preserved. Market likely re-rates to C$15–40M on announcement alone — a 3–7× before a single new drill result.</p>
+        </div>
+        <div>
+          <div class="gate-split-label fail">✗ Gate fails</div>
+          <p>Working interest forfeited. Remaining asset is a 7% GORR on declining SASB. Equity likely trades at C$1–2M. Near-total loss.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GATE II -->
+  <div class="section" id="gate2">
+    <div class="section-label"><span>Gate II</span> · The silent destroyer</div>
+    <h2>Dilution: capital arrives without <em>destroying per-share value</em></h2>
+    <p>The bull case assumes funding is raised at prices that preserve existing shareholders' exposure to the upside. This is a separate, underappreciated gate. The dilution math at different raise prices is stark: raising US$13M equiv. at C$0.30 adds 56M shares (97.6M total); at C$0.10, it adds 168M shares (209.6M total), collapsing per-share Chapman value from ~C$14 to ~C$5.40. A 10× news event can produce a 3× stock return if this gate fails.</p>
+    <div class="gate amber">
+      <div class="gate-tag">Gate II · Dilution · What needs to happen</div>
+      <h3>The full US$15M earn-in is funded at C$0.20 or higher, keeping total diluted share count under ~130M.</h3>
+      <p>Trillion's recent history of sub-threshold raises — shares-for-debenture-interest, C$0.035 settlements in late 2025 — makes this gate genuinely uncertain. Serial dilution at low prices is not a failure of geology. It is a capital-structure failure that can coexist with a working oil discovery and still produce a poor return for holders of today's shares.</p>
+      <div class="gate-split">
+        <div>
+          <div class="gate-split-label pass">✓ Gate clears</div>
+          <p>Raises at C$0.20–0.35 keep per-share exposure intact. A successful drill can still produce 20–50× from today.</p>
+        </div>
+        <div>
+          <div class="gate-split-label fail">✗ Gate fails</div>
+          <p>Distressed raises at C$0.08–0.12 inflate share count 4–5×. A successful drill produces 3–7× instead of 20–50×.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GATE III -->
+  <div class="section" id="gate3">
+    <div class="section-label"><span>Gate III</span> · The commercial test</div>
+    <h2>The drill: C-1ST confirms commercial <em>flow rates</em></h2>
+    <p>Even with funding secured at acceptable dilution, the central geological question is unresolved. C-1 confirmed mobile oil and fracture connectivity but was halted before a sustained production test. The sidetrack targets the structural crest 75–100m higher — the modeled thicker oil column. Analogue wells in the same Mardin Group carbonates 11km away produce 10,000+ bopd. Even 500–2,000 bopd sustained would establish commercial viability and move contingent resources toward reserves under NI 51-101.</p>
+    <div class="gate green">
+      <div class="gate-tag">Gate III · Geology · What needs to happen</div>
+      <h3>C-1ST reaches the structural crest, runs a sustained flow test, and establishes stabilised rates of ≥500 bopd.</h3>
+      <p>One near-term pre-sidetrack signal is often overlooked: Zone A — 13m of unperforated net pay in the existing C-1 wellbore — requires only a perforation and swab test, no new drilling cost. A successful Zone A test in H2 2026 would be the earliest evidence the existing wellbore can produce commercially and would materially de-risk C-1ST. Three failure modes exist: loss of circulation (the same mechanism that stopped C-1), oil-water contact shallower than modeled, or low matrix permeability despite acid stimulation.</p>
+      <div class="gate-split">
+        <div>
+          <div class="gate-split-label pass">✓ Gate clears</div>
+          <p>NI 51-101 reserves reclassification. Re-rating toward Chapman's US$594M risked EV. C$50–200M market cap within 12–24 months.</p>
+        </div>
+        <div>
+          <div class="gate-split-label fail">✗ Gate fails</div>
+          <p>Resource estimate collapses. Capital was deployed, hole was drilled, geology disappointed. Stock returns to near-zero.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GATE IV -->
+  <div class="section" id="gate4">
+    <div class="section-label"><span>Gate IV</span> · The necessary tailwind</div>
+    <h2>Macro: oil stays <em>above the economic threshold</em></h2>
+    <p>Chapman's US$733.5M unrisked NPV-10 is price-path-dependent. At current Brent of ~US$66/bbl, development economics are workable but not generous. The Turkish fiscal regime — 12.5% royalty, capped corporate tax — provides structural cost protection. But a sustained decline toward US$50–55 compresses the unrisked NPV-10 to a level where development risk may no longer be justified. Unlike the first three gates, this one is entirely outside management's control, and its failure mode is a scalar impairment rather than a binary loss.</p>
+    <div class="gate amber">
+      <div class="gate-tag">Gate IV · Macro · What needs to happen</div>
+      <h3>Brent crude remains above US$55–60/bbl through the development window. The economics are marginal at US$50 and compelling at US$70+.</h3>
+      <p>Turkish light 32.4° API oil commands a premium to Brent in regional markets, which provides modest natural hedging on the downside. This gate is best modeled as a return scalar rather than a binary pass/fail — a Brent decline to US$55 impairs the upside without typically producing a near-zero equity outcome on its own. Monitor alongside news flow rather than treating as a primary thesis driver.</p>
+      <div class="gate-split">
+        <div>
+          <div class="gate-split-label pass">✓ Gate clears</div>
+          <p>Brent above US$65 through 2027–28. Full Chapman value supportable. Turkish light premium intact in regional markets.</p>
+        </div>
+        <div>
+          <div class="gate-split-label fail">✗ Gate fails</div>
+          <p>Sustained sub-US$55 compresses development economics. Partners may defer. The re-rate thesis requires both drilling success and oil price recovery — a two-variable dependency.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO TABLE -->
+  <div class="section">
+    <div class="section-label"><span>§</span> · Scenario matrix</div>
+    <h2>Five paths through the <em>gate sequence</em></h2>
+    <table class="scenario-table">
+      <thead>
+        <tr>
+          <th>Gate I</th><th>Gate II</th><th>Gate III</th><th>Implied outcome</th><th>Price range</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag pass">Pass</span></td>
+          <td><span class="tag pass">Pass</span></td>
+          <td><span class="tag pass">Pass</span></td>
+          <td>Full bull case. C-1ST commercial, low dilution. Re-rate toward C$50–200M.</td>
+          <td><strong>C$1.20–4.00+</strong></td>
+        </tr>
+        <tr>
+          <td><span class="tag pass">Pass</span></td>
+          <td><span class="tag pass">Pass</span></td>
+          <td><span class="tag fail">Fail</span></td>
+          <td>Funded but dry. Geology disappoints after capital deployed. Stock returns to near-zero.</td>
+          <td>C$0.02–0.05</td>
+        </tr>
+        <tr>
+          <td><span class="tag pass">Pass</span></td>
+          <td><span class="tag fail">Fail</span></td>
+          <td><span class="tag pass">Pass</span></td>
+          <td>Discovery confirmed but per-share value compressed by heavy dilution. 10× news = 3× stock.</td>
+          <td>C$0.08–0.18</td>
+        </tr>
+        <tr>
+          <td><span class="tag pass">Pass</span></td>
+          <td><span class="tag fail">Fail</span></td>
+          <td><span class="tag fail">Fail</span></td>
+          <td>Capital raised at distressed prices into a dry hole. Maximum destruction.</td>
+          <td>C$0.01–0.03</td>
+        </tr>
+        <tr>
+          <td><span class="tag fail">Fail</span></td>
+          <td><span class="tag na">—</span></td>
+          <td><span class="tag na">—</span></td>
+          <td>Farm-in forfeited. Residual GORR only. Probable delisting risk over 18–24 months.</td>
+          <td>C$0.01–0.02</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict" id="verdict">
+    <div class="verdict-label">Verdict · Hidden Leaf Equity Research</div>
+    <h3>The bull case is conditionally correct — staged conviction is the right posture.</h3>
+    <p>The geology is real. The political de-risking is real. The historical comparable re-rates are real. What this analysis argues is that an investor who buys on the strength of those facts alone has underspecified the problem. There are four gates, not one. The most important — capital — has so far been addressed with a raise covering 4% of the requirement. The most dangerous — dilution — is entirely silent in most bull-case presentations. The most binary — the drill — is 12–18 months away.</p>
+    <p>The correct posture is <strong>staged conviction</strong>: a position sized for the Gate I failure probability today, with a pre-committed decision rule to add on Gate I confirmation and again on Zone A or Findık-2 success. This captures ~70–80% of the upside while eliminating most downside from the one scenario that produces near-total loss on information the market doesn't yet have.</p>
+    <ul class="checklist">
+      <li><span class="n">01</span>Watch the second placement — price, size, and investor type are the three most informative data points in the next 60 days.</li>
+      <li><span class="n">02</span>Zone A perforation (zero drill cost) is the cheapest geological test on the board. Success here changes the C-1ST probability distribution materially.</li>
+      <li><span class="n">03</span>Dilution math matters as much as discovery math. Know your break-even share count before sizing up.</li>
+      <li><span class="n">04</span>Oil at US$66 is workable, not comfortable. A sustained move below US$55 changes development economics.</li>
+      <li><span class="n">05</span>The full 10×–50× return requires Gates I, II, and III to clear sequentially. Each gate confirmation is its own re-rating event and its own decision point.</li>
+    </ul>
+  </div>
+
+  <div class="disclaimer">
+    IMPORTANT · INDEPENDENT RESEARCH · NOT INVESTMENT ADVICE. This report is prepared for informational and analytical purposes only and does not constitute a recommendation, solicitation, or offer to buy or sell any security. Junior exploration and production companies carry a high probability of substantial or total loss of invested capital. All figures in USD unless otherwise noted. Data as of April 22–23, 2026.
+  </div>
+
+</div>
+</body>
+</html>
