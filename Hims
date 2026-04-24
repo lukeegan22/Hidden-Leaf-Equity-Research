@@ -1,0 +1,382 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="light" />
+<title>HIMS · Hidden Leaf Equity Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #111110; --ink2: #2e2e2c; --ink3: #66665e;
+    --paper: #ffffff; --paper2: #f4f2ee; --paper3: #edeae4;
+    --rule: #e0dcd6; --rule2: #c8c4bc;
+    --green: #145c30; --green-bg: #e4f2ea;
+    --red: #a0321a; --red-bg: #fceae6;
+    --amber: #7a5200; --amber-bg: #fdf3e0;
+    --accent: #163d6e;
+    --mono: 'IBM Plex Mono', monospace;
+    --serif: 'IBM Plex Serif', serif;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+  html { font-size: 16px; color-scheme: light only; scroll-behavior: smooth; }
+  body { background: #ffffff !important; color: var(--ink) !important; font-family: var(--sans); font-weight: 400; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: var(--ink); display: flex; align-items: center; padding: 0 2rem; height: 40px; font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.07em; overflow-x: auto; white-space: nowrap; }
+  nav .brand { color: #fff; font-weight: 600; margin-right: 1.5rem; letter-spacing: 0.1em; }
+  nav .brand span { color: #5aaa78; }
+  nav a { color: #888; text-decoration: none; padding: 0 0.85rem; height: 40px; display: inline-flex; align-items: center; border-left: 1px solid #333; transition: color 0.15s; }
+  nav a:hover { color: #fff; }
+
+  .masthead { padding: 2.5rem 2rem 2rem; border-bottom: 1px solid var(--rule2); max-width: 860px; margin: 0 auto; }
+  .masthead-eyebrow { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); margin-bottom: 0.75rem; }
+  .masthead-eyebrow span { color: var(--accent); }
+  .masthead h1 { font-family: var(--serif); font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 300; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 0.75rem; max-width: 780px; }
+  .masthead h1 em { font-style: italic; color: var(--accent); }
+  .masthead-sub { font-family: var(--serif); font-size: 1rem; font-weight: 400; color: var(--ink2); max-width: 640px; line-height: 1.7; }
+
+  .options-wrap { max-width: 860px; margin: 1.75rem auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule2); border: 1px solid var(--rule2); padding: 0 2rem; box-sizing: border-box; }
+  .option-panel { background: var(--ink); padding: 1.25rem 1.5rem; }
+  .panel-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #252522; }
+  .panel-tag { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: #5aaa78; margin-bottom: 0.25rem; }
+  .panel-expiry { font-family: var(--mono); font-size: 0.75rem; font-weight: 600; color: #e8e4dc; letter-spacing: 0.04em; }
+  .days-left { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.06em; text-align: right; }
+  .days-left .n { font-size: 1.1rem; font-weight: 600; color: #e8e4dc; display: block; }
+  .days-left .l { color: #555; font-size: 0.58rem; }
+  .urgent { color: #cc6644 !important; }
+  .option-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem 1rem; }
+  .os-label { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.09em; text-transform: uppercase; color: #555; margin-bottom: 0.2rem; }
+  .os-val { font-family: var(--mono); font-size: 0.92rem; font-weight: 600; color: #e8e4dc; }
+  .os-val.up { color: #5aaa78; } .os-val.down { color: #cc6644; } .os-val.amber { color: #c8960a; } .os-val.dim { color: #888; }
+  .progress-wrap { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #252522; }
+  .progress-label { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.09em; text-transform: uppercase; color: #555; margin-bottom: 0.5rem; display: flex; justify-content: space-between; }
+  .progress-bar-bg { height: 4px; background: #252522; border-radius: 2px; position: relative; overflow: hidden; }
+  .progress-bar-fill { height: 100%; border-radius: 2px; background: #5aaa78; transition: width 0.5s; }
+  .progress-bar-fill.amber { background: #c8960a; }
+  .progress-bar-fill.red { background: #cc6644; }
+
+  .stock-bar { max-width: 860px; margin: 0 auto; background: var(--paper2); border: 1px solid var(--rule2); border-top: none; padding: 0.65rem 2.5rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
+  .sb-item { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.06em; color: var(--ink3); }
+  .sb-item strong { color: var(--ink); font-size: 0.82rem; font-weight: 600; margin-right: 0.35rem; }
+  .sb-item.up strong { color: var(--green); } .sb-item.down strong { color: var(--red); }
+  .live-dot { display: inline-block; width: 6px; height: 6px; background: #5aaa78; border-radius: 50%; animation: pulse 2s infinite; margin-right: 0.35rem; vertical-align: middle; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  .content { max-width: 860px; margin: 0 auto; padding: 0 2rem 5rem; }
+
+  .timeline { padding: 2rem 0; border-bottom: 1px solid var(--rule); }
+  .timeline-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink3); margin-bottom: 1.5rem; }
+  .tl-item { display: grid; grid-template-columns: 90px 16px 1fr; gap: 0 1rem; align-items: stretch; }
+  .tl-date { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.06em; color: var(--ink3); text-align: right; padding: 0.65rem 0; white-space: nowrap; }
+  .tl-spine { display: flex; flex-direction: column; align-items: center; }
+  .tl-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--rule2); background: var(--paper); flex-shrink: 0; margin-top: 0.9rem; z-index: 1; }
+  .tl-dot.green { background: var(--green); border-color: var(--green); }
+  .tl-dot.amber { background: var(--amber); border-color: var(--amber); }
+  .tl-dot.accent { background: var(--accent); border-color: var(--accent); }
+  .tl-dot.red { background: var(--red); border-color: var(--red); }
+  .tl-line { width: 2px; background: var(--rule); flex: 1; }
+  .tl-item:last-child .tl-line { display: none; }
+  .tl-body { padding: 0.5rem 0 1.25rem; }
+  .tl-title { font-family: var(--sans); font-size: 0.9rem; font-weight: 600; color: var(--ink); margin-bottom: 0.25rem; }
+  .tl-desc { font-family: var(--sans); font-size: 0.85rem; color: var(--ink2); line-height: 1.55; }
+  .tl-tag { display: inline-block; font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.15rem 0.5rem; margin-top: 0.4rem; }
+  .tl-tag.opt1 { background: #eaf4ee; color: var(--green); }
+  .tl-tag.opt2 { background: #e8eef8; color: var(--accent); }
+  .tl-tag.both { background: var(--amber-bg); color: var(--amber); }
+  .tl-tag.past { background: var(--paper2); color: var(--ink3); border: 1px solid var(--rule2); }
+  .tl-tag.beyond { background: var(--paper2); color: var(--ink3); border: 1px solid var(--rule2); }
+
+  .section { padding-top: 2.5rem; border-top: 1px solid var(--rule); margin-top: 2.5rem; }
+  .section-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink3); margin-bottom: 0.4rem; }
+  .section-label span { color: var(--accent); }
+  .section h2 { font-family: var(--serif); font-size: clamp(1.2rem, 3vw, 1.65rem); font-weight: 300; line-height: 1.25; margin-bottom: 0.85rem; letter-spacing: -0.01em; }
+  .section h2 em { font-style: italic; color: var(--accent); }
+  .section p { font-family: var(--serif); font-size: 1rem; line-height: 1.8; color: var(--ink2); max-width: 72ch; margin-bottom: 0.85rem; }
+  .section p:last-child { margin-bottom: 0; }
+
+  .risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule2); border: 1px solid var(--rule2); margin-top: 1.25rem; }
+  .risk-cell { background: var(--paper); padding: 1rem 1.15rem; }
+  .risk-cell-label { font-family: var(--mono); font-size: 0.57rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .risk-cell-label.bull { color: var(--green); } .risk-cell-label.bear { color: var(--red); }
+  .risk-cell p { font-family: var(--sans); font-size: 0.88rem; line-height: 1.6; color: var(--ink2); margin: 0; }
+
+  .verdict { background: var(--ink); color: #e8e4dc; padding: 2rem 2.25rem; margin-top: 2.5rem; }
+  .verdict-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: #5aaa78; margin-bottom: 0.5rem; }
+  .verdict h3 { font-family: var(--serif); font-size: 1.35rem; font-weight: 400; line-height: 1.3; margin-bottom: 1rem; color: #f0ede8; }
+  .verdict p { font-family: var(--sans); font-size: 0.95rem; line-height: 1.75; color: #c8c4bc; max-width: 66ch; margin-bottom: 0.9rem; }
+  .verdict p strong { color: #f0ede8; }
+  .verdict p:last-child { margin-bottom: 0; }
+
+  .disclaimer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 0.65rem; line-height: 1.7; color: var(--ink3); letter-spacing: 0.02em; }
+
+  @media (max-width: 640px) {
+    .options-wrap { grid-template-columns: 1fr; padding: 0 1rem; }
+    .risk-grid { grid-template-columns: 1fr; }
+    .masthead, .content { padding-left: 1rem; padding-right: 1rem; }
+    .stock-bar { padding: 0.65rem 1rem; gap: 1rem; }
+    .tl-date { font-size: 0.56rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="brand">HIDDEN <span>LEAF</span></span>
+  <a href="index.html">← All Reports</a>
+  <a href="#options">Options</a>
+  <a href="#catalysts">Catalysts</a>
+  <a href="#thesis">Thesis</a>
+  <a href="#risks">Risks</a>
+  <a href="#verdict">Verdict</a>
+</nav>
+
+<div class="masthead">
+  <div class="masthead-eyebrow">HIMS · NYSE &nbsp;·&nbsp; <span>Short-Term Call Options</span> &nbsp;·&nbsp; Luke &nbsp;·&nbsp; Apr 23 2026</div>
+  <h1>Two calls. Two windows. One <em>catalyst-driven</em> bet on a misread recovery.</h1>
+  <p class="masthead-sub">Hims is down ~70% from its high on GLP-1 regulatory fears that are already resolving. The Novo lawsuit is settled, a distribution deal is live, a $1.15B international acquisition closes in weeks, and Q1 earnings lands May 11. The near-term question: does the market catch up before May 1 and June 7?</p>
+</div>
+
+<div class="options-wrap" id="options">
+  <div class="option-panel">
+    <div class="panel-header">
+      <div>
+        <div class="panel-tag">Leg 1 · Near-Term</div>
+        <div class="panel-expiry">Exp. May 1, 2026</div>
+      </div>
+      <div class="days-left">
+        <span class="n" id="days1">—</span>
+        <span class="l">days left</span>
+      </div>
+    </div>
+    <div class="option-stats">
+      <div><div class="os-label">Strike</div><div class="os-val">$31.00</div></div>
+      <div><div class="os-label">Entry (premium)</div><div class="os-val">$3.11</div></div>
+      <div><div class="os-label">Breakeven at exp.</div><div class="os-val amber">$34.11</div></div>
+      <div><div class="os-label">Status</div><div class="os-val" id="status1">—</div></div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Stock vs. Breakeven</span><span id="prog-label1">—</span></div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog1" style="width:0%"></div></div>
+    </div>
+  </div>
+  <div class="option-panel">
+    <div class="panel-header">
+      <div>
+        <div class="panel-tag">Leg 2 · Medium-Term</div>
+        <div class="panel-expiry">Exp. June 7, 2026</div>
+      </div>
+      <div class="days-left">
+        <span class="n" id="days2">—</span>
+        <span class="l">days left</span>
+      </div>
+    </div>
+    <div class="option-stats">
+      <div><div class="os-label">Strike</div><div class="os-val">$34.00</div></div>
+      <div><div class="os-label">Entry (premium)</div><div class="os-val">$3.11</div></div>
+      <div><div class="os-label">Breakeven at exp.</div><div class="os-val amber">$37.11</div></div>
+      <div><div class="os-label">Status</div><div class="os-val" id="status2">—</div></div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Stock vs. Breakeven</span><span id="prog-label2">—</span></div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog2" style="width:0%"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="stock-bar">
+  <div class="sb-item"><span class="live-dot"></span><strong id="live-price">—</strong>HIMS Live</div>
+  <div class="sb-item" id="chg-item"><strong id="live-chg">—</strong>Today</div>
+  <div class="sb-item"><strong>$34.11</strong>Leg 1 BE</div>
+  <div class="sb-item"><strong>$37.11</strong>Leg 2 BE</div>
+  <div class="sb-item"><span id="last-upd" style="color:var(--ink3)">Updating...</span></div>
+</div>
+
+<div class="content">
+
+  <div class="timeline" id="catalysts">
+    <div class="timeline-label">Catalyst Timeline · What needs to move the stock and when</div>
+
+    <div class="tl-item">
+      <div class="tl-date">Mar 9 2026</div>
+      <div class="tl-spine"><div class="tl-dot green"></div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-title">Novo Nordisk settles — distribution deal signed</div>
+        <div class="tl-desc">Lawsuit dropped. Hims becomes a licensed distributor of branded Wegovy and Ozempic at $149/month. The DOJ referral quietly faded. The existential legal risk is gone — this is the foundational de-risking event the market has only partially priced in.</div>
+        <span class="tl-tag past">✓ Resolved</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">Now → May 1</div>
+      <div class="tl-spine"><div class="tl-dot amber"></div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-title">Leg 1 window — momentum only, no hard catalyst</div>
+        <div class="tl-desc">No scheduled earnings, FDA meeting, or acquisition news before May 1. Leg 1 works if the recent 50% rally off the February lows continues on short covering and sentiment. The stock needs to hold above $34.11 on momentum alone for 8 days.</div>
+        <span class="tl-tag opt1">Leg 1 Window</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">May 1 2026</div>
+      <div class="tl-spine"><div class="tl-dot red"></div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-title">Leg 1 expires</div>
+        <div class="tl-desc">Stock must be above $34.11 at close for Leg 1 to be profitable at expiration. Consider taking gains early if the stock moves into the money before this date — theta decay accelerates sharply in the final week.</div>
+        <span class="tl-tag opt1">Leg 1 Deadline</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">May 11 2026</div>
+      <div class="tl-spine"><div class="tl-dot accent"></div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-title">Q1 2026 Earnings — the key event for Leg 2</div>
+        <div class="tl-desc">Revenue guided $600–625M. First print after the Novo deal. Will contain early GLP-1 branded conversion data, subscriber stability figures, and Eucalyptus acquisition timing. A beat-and-raise with positive Novo conversion commentary could push the stock above $37 on its own — enough to put Leg 2 in the money with a month still to run.</div>
+        <span class="tl-tag opt2">Leg 2 Primary Catalyst</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">Mid-2026</div>
+      <div class="tl-spine"><div class="tl-dot accent"></div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-title">Eucalyptus closes — $450M+ ARR added internationally</div>
+        <div class="tl-desc">$1.15B acquisition of Australia/UK/Germany/Japan telehealth platform. $450M ARR growing triple digits. Management guided $200M+ in H2 2026 revenue. Confirmation of close timing on the May 11 earnings call would be a meaningful secondary catalyst for Leg 2.</div>
+        <span class="tl-tag opt2">Leg 2 Secondary Catalyst</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">Jun 7 2026</div>
+      <div class="tl-spine"><div class="tl-dot red"></div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-title">Leg 2 expires — stock needs to be above $37.11</div>
+        <div class="tl-desc">By this date, Q1 earnings will have printed and the Eucalyptus close will likely be confirmed. Requires ~20% upside from the current ~$31 level. Three distinct catalysts land before expiry. If none of them move the stock, the option expires worthless.</div>
+        <span class="tl-tag opt2">Leg 2 Deadline</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">Jul 23 2026</div>
+      <div class="tl-spine"><div class="tl-dot green"></div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-title">FDA Peptide Panel — beyond both options but bullish long-term</div>
+        <div class="tl-desc">FDA reviews 7 peptides for broader compounding access. Hims owns a California peptide facility built specifically for this. A favorable recommendation unlocks high-margin compounding revenue to replace GLP-1 margins. Relevant for equity holders, not these options.</div>
+        <span class="tl-tag beyond">Beyond Both Windows</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section" id="thesis">
+    <div class="section-label"><span>Supporting context</span> · Why the underlying thesis holds</div>
+    <h2>Hims is a <em>platform business</em> being priced as a failed GLP-1 trade</h2>
+    <p>Before Hims touched weight loss, it was already a profitable business: sexual health, hair loss, dermatology, and mental health generated $1.2B+ of the $1.5B in 2024 revenue. GLP-1 compounding was an accelerant layered on top of a working platform — not the platform itself. The regulatory crackdown closed the compounding loophole but didn't touch the underlying business. 2.5M subscribers, $2.35B in 2025 revenue (+59%), and a $300–375M EBITDA guide for 2026 are the numbers of a company that isn't broken.</p>
+    <p>The Novo settlement is the pivot. Hims went from being sued and referred to the DOJ to being Novo's preferred direct-to-consumer distribution partner — the lowest price point for branded Wegovy in the US at $149/month. That's a real structural position in the world's largest pharmaceutical category, with zero legal risk attached. The Eucalyptus acquisition adds $450M ARR growing at triple digits in international markets with less regulatory friction, closing in weeks. The platform thesis is intact. The market hasn't fully caught up.</p>
+  </div>
+
+  <div class="section" id="risks">
+    <div class="section-label"><span>Risk assessment</span> · What kills each leg</div>
+    <h2>Leg 1 is the <em>riskier position</em> — momentum with no catalyst backstop</h2>
+    <div class="risk-grid">
+      <div class="risk-cell">
+        <div class="risk-cell-label bull">Bull — Leg 1 (May 1)</div>
+        <p>Short covering and momentum continue. No negative news between now and May 1. Stock holds above $34.11 on sentiment alone. The 50%+ two-week rally has real momentum behind it.</p>
+      </div>
+      <div class="risk-cell">
+        <div class="risk-cell-label bear">Bear — Leg 1 (May 1)</div>
+        <p>No hard catalyst before May 1. Momentum stalls or reverses. Short sellers reload. Stock drifts back toward $28–30. Option expires worthless with no earnings to rescue it. This is the primary risk.</p>
+      </div>
+      <div class="risk-cell">
+        <div class="risk-cell-label bull">Bull — Leg 2 (Jun 7)</div>
+        <p>May 11 earnings: clean Q1 print, subscriber stability, Novo conversion data. Any one of these moves the stock to $37+. Eucalyptus close confirmation is a secondary push. Three catalysts, 45-day window.</p>
+      </div>
+      <div class="risk-cell">
+        <div class="risk-cell-label bear">Bear — Leg 2 (Jun 7)</div>
+        <p>May 11 disappoints — GLP-1 churn above estimates, EBITDA misses, or guidance pulled. Stock re-tests $20–25. Eucalyptus close delayed past June. Option expires worthless even with the long-term thesis intact.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="verdict" id="verdict">
+    <div class="verdict-label">Verdict · Hidden Leaf Equity Research</div>
+    <h3>Leg 2 is the better-structured trade. Leg 1 is a momentum bet with a tight window.</h3>
+    <p>The thesis is sound and the recovery is real — but timing matters in short-dated options. <strong>Leg 1 (May 1) has no scheduled catalyst before expiry.</strong> It works if the recent rally continues, but there's nothing concrete to point to. Eight days of momentum with no earnings, no FDA meeting, no acquisition news. It's possible — the stock has been moving fast — but it's not a catalyst-driven setup.</p>
+    <p><strong>Leg 2 (June 7) is the cleaner trade.</strong> May 11 earnings lands squarely between entry and expiry, and that print will contain the first real data on Novo conversion rates, subscriber retention, and Eucalyptus timing — the three core thesis drivers in a single event. A clean beat-and-raise on May 11 could push the stock above $37.11 on its own, leaving a month of additional time value. That's a genuine event-driven setup.</p>
+    <p>If Leg 1 moves into or near the money before May 1, consider taking the profit early rather than holding to expiration. Theta decay in the final week will erode value faster than the stock can likely move without a catalyst. Leg 2 has the earnings print as its foundation — hold it through May 11 before deciding.</p>
+  </div>
+
+  <div class="disclaimer">
+    IMPORTANT · INDEPENDENT RESEARCH · NOT INVESTMENT ADVICE. Options trading involves significant risk of loss including total loss of premium paid. This report reflects the author's personal analysis only. All figures in USD. Data as of April 23, 2026.
+  </div>
+
+</div>
+
+<script>
+  const LEG1 = { strike: 31, entry: 3.11, expiry: new Date('2026-05-01') };
+  const LEG2 = { strike: 34, entry: 3.11, expiry: new Date('2026-06-07') };
+  function be(leg) { return leg.strike + leg.entry; }
+
+  function updateDays() {
+    const now = new Date();
+    [{ leg: LEG1, id: 'days1' }, { leg: LEG2, id: 'days2' }].forEach(({ leg, id }) => {
+      const diff = Math.ceil((leg.expiry - now) / 86400000);
+      const el = document.getElementById(id);
+      el.textContent = diff <= 0 ? 'EXP' : diff;
+      el.className = 'n' + (diff <= 5 ? ' urgent' : '');
+    });
+  }
+
+  function updatePanels(price) {
+    const p = parseFloat(price);
+    [
+      { leg: LEG1, sId: 'status1', pId: 'prog1', lId: 'prog-label1' },
+      { leg: LEG2, sId: 'status2', pId: 'prog2', lId: 'prog-label2' }
+    ].forEach(({ leg, sId, pId, lId }) => {
+      const b = be(leg);
+      const toB = b - p;
+      const sEl = document.getElementById(sId);
+      if (toB <= 0) { sEl.textContent = 'ITM ✓'; sEl.className = 'os-val up'; }
+      else { sEl.textContent = '-$' + toB.toFixed(2) + ' to BE'; sEl.className = 'os-val amber'; }
+      const range = b - leg.strike;
+      const pct = Math.min(100, Math.max(0, ((p - leg.strike) / range) * 100));
+      const pEl = document.getElementById(pId);
+      pEl.style.width = pct + '%';
+      pEl.className = 'progress-bar-fill' + (toB <= 0 ? '' : toB < 2 ? ' amber' : '');
+      document.getElementById(lId).textContent = '$' + p.toFixed(2) + ' / $' + b.toFixed(2) + ' BE';
+    });
+  }
+
+  async function fetchPrice() {
+    try {
+      const res = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/HIMS?interval=1m&range=1d');
+      const d = await res.json();
+      const meta = d?.chart?.result?.[0]?.meta;
+      if (!meta) return;
+      const price = meta.regularMarketPrice;
+      const prev = meta.previousClose || meta.chartPreviousClose;
+      document.getElementById('live-price').textContent = '$' + price.toFixed(2);
+      if (prev) {
+        const chg = ((price - prev) / prev * 100);
+        const sign = chg >= 0 ? '+' : '';
+        document.getElementById('live-chg').textContent = sign + chg.toFixed(2) + '% ';
+        document.getElementById('chg-item').className = 'sb-item ' + (chg >= 0 ? 'up' : 'down');
+      }
+      document.getElementById('last-upd').textContent = 'Updated ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      updatePanels(price);
+    } catch(e) {
+      document.getElementById('last-upd').textContent = 'Price unavailable';
+    }
+  }
+
+  updateDays();
+  fetchPrice();
+  setInterval(fetchPrice, 60000);
+  setInterval(updateDays, 60000);
+</script>
+</body>
+</html>
